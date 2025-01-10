@@ -29,6 +29,5 @@ public class PlayerCharacter : CharacterBase
     public void OnMove(InputAction.CallbackContext context)
     {
         Input = context.ReadValue<Vector2>();
-        Debug.Log(Input);
     }
 }

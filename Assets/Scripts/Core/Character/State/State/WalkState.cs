@@ -12,13 +12,13 @@ public class WalkState : StateBase
     {
         base.Start();
 
-        _ownerCharacter.Animator?.SetBool("walk", true);
+        //_ownerCharacter.Animator?.SetBool("walk", true);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        _ownerCharacter.Velocity = new Vector2(_ownerCharacter.Input.x * 5.0f, _ownerCharacter.Velocity.y);
+        _ownerCharacter.Velocity = new Vector2(_ownerCharacter.Input.x * 5.0f, _ownerCharacter.Input.y * 5.0f);
     }
 }

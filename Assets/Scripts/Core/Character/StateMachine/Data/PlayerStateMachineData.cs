@@ -14,13 +14,14 @@ public class PlayerStateMachineData : StateMachineData
         base.GenerateState(owner, stage);
         _stateList.Add(new IdleState(owner));
         _stateList.Add(new WalkState(owner));
+        //_stateList.Add(new G_JumpState(owner));
     }
 
     protected override void GenerateLink(CharacterBase owner, int stage)
     {
         base.GenerateLink(owner, stage);
 
-        _stateLinkList.Add(new StateLinkAdvance<IdleState, WalkState>(_stateList, (o, l, d) => { return d.IsGround && d.Input.x != 0; }));
-        _stateLinkList.Add(new StateLinkAdvance<WalkState, IdleState>(_stateList, (o, l, d) => { return d.IsGround && d.Input.x == 0; }));
+        _stateLinkList.Add(new StateLinkAdvance<IdleState, WalkState>(_stateList, (o, l, d) => { return d.IsGround && d.Input != Vector2.zero; }));
+        _stateLinkList.Add(new StateLinkAdvance<WalkState, IdleState>(_stateList, (o, l, d) => { return d.IsGround && d.Input == Vector2.zero; }));
     }
 }

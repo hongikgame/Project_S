@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class G_JumpState : MonoBehaviour
+public class G_JumpState : StateBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public G_JumpState(CharacterBase ownerCharacter) : base(ownerCharacter)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Start()
     {
-        
+        base.Start();
+
+        _ownerCharacter.Velocity = new Vector2(_ownerCharacter.Velocity.x, 4f);
     }
 }

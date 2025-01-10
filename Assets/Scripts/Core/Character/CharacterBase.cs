@@ -15,13 +15,15 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
 
     [Header("Movement")]
     protected StateMachine _stateMachine;
+    [SerializeField] private bool _isInfluenceByFlowWater = false;
+    [SerializeField] private bool _isOnWater = false;
     [SerializeField] private Bounds _initBound;
     [SerializeField] private Vector2 _position;
     [SerializeField] private Vector2 _velocity;
     [SerializeField] private Vector2 _input;
+    [SerializeField] private FlowWater _flowWater;
     [SerializeField] private CharacterDirection _direction;
     [SerializeField] private bool _isGround = true;
-
 
     [Header("Reference")]
     [SerializeField] private Rigidbody2D _rb;
@@ -42,9 +44,8 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
             else if (_velocity.x < -0.1) Direction = CharacterDirection.Left;
         }
     }
-
     public Vector2 Input { get => _input; set => _input = value; }
-
+    public FlowWater FlowWater { get => _flowWater; set => _flowWater = value; }
     public CharacterDirection Direction
     {
         get => _direction;
@@ -66,9 +67,8 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
             _direction = value;
         }
     }
+    public bool IsOnWater { set { _isOnWater = value; } }
     public bool IsGround => _isGround;
-
-
     public bool IsImuttable { get => _imuttable; }
     public float Health{ get => _health; }
     public float MaxHealth { get => _maxHealth; }
@@ -92,8 +92,11 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
         if (_health == 0) return;
 
         //업데이트
+        //_velocity = _rb.velocity;
+        _velocity = Vector2.zero;
         _stateMachine.Update(this);
         UpdateRigidbodyVelocity();
+        //UpdateZRotation();
     }
 
     #endregion
@@ -137,10 +140,36 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
     private void UpdateRigidbodyVelocity()
     {
         if (_rb == null) return;
-        //Debug.Log(_velocity);
+        
+        if(_isInfluenceByFlowWater)
+        {
+            if (_flowWater) 
+            { 
+                _velocity += _flowWater.FlowDirection;
+            }
+        }
+        
         _rb.velocity = _velocity;
     }
 
+    private void UpdateZRotation()
+    {
+        if (_input == Vector2.zero) return;
+        if (_isInfluenceByFlowWater)
+        {
+            float angle = Mathf.Atan2(_input.y, _input.x) * Mathf.Rad2Deg;
+            if (angle > 90)
+            {
+                angle -= 180;
+            }
+            else if (angle < -90)
+            {
+                angle += 180;
+            }
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+        
+    }
 }
 
 public enum CharacterDirection

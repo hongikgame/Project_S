@@ -12,6 +12,6 @@ public class IdleState : StateBase
     {
         base.Start();
 
-        _ownerCharacter.Velocity = new Vector2(0, _ownerCharacter.Velocity.y);
+        _ownerCharacter.Velocity = new Vector2(0, 0);
     }
 }
