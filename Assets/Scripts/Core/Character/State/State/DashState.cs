@@ -2,17 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashState : MonoBehaviour
+public class DashState : StateBase
 {
-    // Start is called before the first frame update
-    void Start()
+    private Vector2 _direction;
+    public DashState(CharacterBase ownerCharacter) : base(ownerCharacter)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Start()
     {
-        
+        base.Start();
+
+        _direction = _ownerCharacter.Input * 3;
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        _ownerCharacter.Velocity = _direction * 10;
+    }
+
+    public override void Finish()
+    {
+        base.Finish();
+
+
     }
 }

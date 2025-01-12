@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WalkState : StateBase
+public class SwimState : StateBase
 {
-    public WalkState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public SwimState(CharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 

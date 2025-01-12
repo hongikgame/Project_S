@@ -24,6 +24,9 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private FlowWater _flowWater;
     [SerializeField] private CharacterDirection _direction;
     [SerializeField] private bool _isGround = true;
+    [SerializeField] private int _dashCount = 3;
+    [SerializeField] private float _dashCooldown = 1.5f;
+    [SerializeField] private float _dashCooldownRemain = 1.5f;
 
     [Header("Reference")]
     [SerializeField] private Rigidbody2D _rb;
@@ -69,6 +72,8 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
     }
     public bool IsOnWater { set { _isOnWater = value; } }
     public bool IsGround => _isGround;
+    public int DashCount => _dashCount;
+    public float DashCooldownRemain => _dashCooldownRemain;
     public bool IsImuttable { get => _imuttable; }
     public float Health{ get => _health; }
     public float MaxHealth { get => _maxHealth; }
@@ -130,7 +135,7 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
         _health = _maxHealth;
     }
 
-    public void Die(ICharacter perp)
+    public void Die(ICharacter perp = null)
     {
         //가해자, 사망원인 처리
     }
