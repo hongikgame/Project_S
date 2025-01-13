@@ -44,9 +44,18 @@ TagManager:
   - name: BackGround
     uniqueID: 3553123575
     locked: 0
-  - name: TileMap
+  - name: BaTileMap
     uniqueID: 2012080429
     locked: 0
-  - name: Charater
+  - name: Projectile
+    uniqueID: 969256843
+    locked: 0
+  - name: Player
     uniqueID: 262855337
+    locked: 0
+  - name: Npc
+    uniqueID: 2947923179
+    locked: 0
+  - name: FoTileMap
+    uniqueID: 2198511597
     locked: 0
