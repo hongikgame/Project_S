@@ -13,6 +13,7 @@ public class DashState : StateBase
     {
         base.Start();
 
+        _ownerCharacter.Dash();
         _direction = _ownerCharacter.Input * 3;
         InputManager.DashKeyDown = false;
     }

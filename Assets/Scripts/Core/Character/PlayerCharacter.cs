@@ -50,11 +50,6 @@ public class PlayerCharacter : CharacterBase, IBreath
         Input = context.ReadValue<Vector2>();
     }
 
-    public void OnDash(InputAction.CallbackContext context)
-    {
-        InputDash = context.ReadValue<bool>();
-    }
-
     public void DecreaseOxygen(float amount)
     {
         Mathf.Clamp(_oxygen - amount, 0, _oxygen);
@@ -78,6 +73,8 @@ public class PlayerCharacter : CharacterBase, IBreath
 
     public override void Attack()
     {
+        base.Attack();
+
         Vector2 aimPos = Mouse.current.position.ReadValue();
         Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(aimPos);
         Vector2 characterPos = transform.position;
@@ -88,5 +85,10 @@ public class PlayerCharacter : CharacterBase, IBreath
         _attackRangeObject.transform.position = newPos;
         float rotationAngle = Mathf.Rad2Deg * angle - 90f;
         _attackRangeObject.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
+    }
+
+    public override void Dash()
+    {
+        base.Dash();
     }
 }

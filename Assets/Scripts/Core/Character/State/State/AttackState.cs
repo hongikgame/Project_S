@@ -20,6 +20,13 @@ public class AttackState : StateBase
         _ownerCharacter.Rigidbody2D.gravityScale = 0;
     }
 
+    public override void Update()
+    {
+        base.Update();
+
+        _ownerCharacter.AttackCooldownRemain = _ownerCharacter.AttackCooldownRemain - Time.deltaTime;
+    }
+
     public override void Finish()
     {
         base.Finish();

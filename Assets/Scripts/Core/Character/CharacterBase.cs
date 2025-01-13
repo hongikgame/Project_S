@@ -5,10 +5,10 @@ using UnityEngine.InputSystem;
 
 public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
 {
-    public bool IsDebug = false;
-
     [Header("Data")]
     private string _name = "CharacterBase";
+
+    [Header("Health")]
     private float _health = 100.0f;
     private float _maxHealth = 100.0f;
     private bool _imuttable = true;
@@ -25,13 +25,18 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private CharacterDirection _direction;
     [SerializeField] private bool _isGround = true;
 
-    [SerializeField] private bool _inputDash = true;
+    [Header("Movement - Dash")]
     [SerializeField] private int _dashCount = 3;
-    [SerializeField] private float _dashCooldown = 0.25f;
-    [SerializeField] private float _dashCooldownRemain = 0.25f;
+    [SerializeField] private float _dashCooldown = 3f;
+    [SerializeField] private float _dashCooldownRemain = 0f;
+    [SerializeField] private float _dashDuration = 0.25f;
+    [SerializeField] private float _dashDurationRemain = 0f;
 
-    [SerializeField] private float _attackCooldown = 0.35f;
-    [SerializeField] private float _attackCooldownRemain = 0.35f;
+    [Header("Movement - Attack")]
+    [SerializeField] private float _attackCooldown = 1f;
+    [SerializeField] private float _attackCooldownRemain = 0f;
+    [SerializeField] private float _attackDuration = 0.35f;
+    [SerializeField] private float _attackDurationRemain = 0f;
 
     [Header("Reference")]
     [SerializeField] private Rigidbody2D _rb;
@@ -79,24 +84,25 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     public bool IsInfluenceByFlowWater { get => _isInfluenceByFlowWater; set => _isInfluenceByFlowWater = value; }
     public bool IsOnWater { get => _isOnWater; set => _isOnWater = value; }
     public bool IsGround { get => _isGround; set => _isGround = value; }
-    public bool InputDash { get => _inputDash; set => _inputDash = value; }
+    public bool CanDash { get => _dashCooldownRemain <= 0; }
     public int DashCount => _dashCount;
     public float DashCooldownRemain
     {
-        get => _dashCooldownRemain;
+        get => _dashDurationRemain;
         set
         {
-            _dashCooldownRemain = value;
-            _dashCooldownRemain = Mathf.Clamp(_dashCooldownRemain, 0, _dashCooldown);
+            _dashDurationRemain = value;
+            _dashDurationRemain = Mathf.Clamp(_dashDurationRemain, 0, _dashDuration);
         }
     }
+    public bool CanAttack { get => _attackCooldownRemain <= 0; }
     public float AttackCooldownRemain
     { 
-        get => _attackCooldownRemain; 
+        get => _attackDurationRemain; 
         set
         {
-            _attackCooldownRemain = value;
-            _attackCooldownRemain = Mathf.Clamp(_attackCooldownRemain, 0, _attackCooldown);
+            _attackDurationRemain = value;
+            _attackDurationRemain = Mathf.Clamp(_attackDurationRemain, 0, _attackDuration);
         }
     }
     public bool IsImuttable { get => _imuttable; }
@@ -123,7 +129,6 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
         if (_health == 0) return;
 
         //업데이트
-        //_velocity = _rb.velocity;
         _velocity = Vector2.zero;
         _stateMachine.FixedUpdate(this);
         UpdateRigidbodyVelocity();
@@ -134,8 +139,10 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     {
         _stateMachine.Update(this);
 
-        if(_dashCooldownRemain > 0) _dashCooldownRemain = Mathf.Clamp(_dashCooldownRemain - Time.deltaTime, 0, _dashCooldownRemain);
-        if(_attackCooldownRemain > 0) _attackCooldownRemain = Mathf.Clamp(_attackCooldownRemain - Time.deltaTime, 0, _attackCooldownRemain);
+        if(_attackCooldownRemain > 0) _attackCooldownRemain -= Time.deltaTime;
+        else _attackCooldownRemain = 0;
+        if (_dashCooldownRemain > 0) _dashCooldownRemain -= Time.deltaTime;
+        else _dashCooldownRemain = 0;
     }
     #endregion
 
@@ -209,7 +216,15 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
         
     }
 
-    public abstract void Attack();
+    public virtual void Attack()
+    {
+        _attackCooldownRemain = _attackCooldown;
+    }
+
+    public virtual void Dash()
+    {
+        _dashCooldownRemain = _dashCooldown;
+    }
 
 }
 

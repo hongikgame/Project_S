@@ -206,17 +206,6 @@
                 },
                 {
                     "name": "",
-                    "id": "0490b232-7d41-4bb2-8aa2-c82d1d71e54f",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0c93a1e2-1ff1-4621-b30d-565ecc4dc630",
                     "path": "<Mouse>/press",
                     "interactions": "",

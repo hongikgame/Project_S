@@ -23,9 +23,9 @@ public class PlayerStateMachineData : StateMachineData
         base.GenerateLink(owner, stage);
 
          _stateLinkList.Add(new StateLinkAdvance<NoneState, SwimState>(_stateList, (o, l, d) => { return true; }));
-         _stateLinkList.Add(new StateLinkAdvance<SwimState, DashState>(_stateList, (o, l, d) => { return InputManager.DashKeyDown && d.DashCount > 0; }));
+         _stateLinkList.Add(new StateLinkAdvance<SwimState, DashState>(_stateList, (o, l, d) => { return d.CanDash && InputManager.DashKeyDown && d.DashCount > 0; }));
          _stateLinkList.Add(new StateLinkAdvance<DashState, SwimState>(_stateList, (o, l, d) => { return d.DashCooldownRemain <= 0; }));
-         _stateLinkList.Add(new StateLinkAdvance<SwimState, AttackState>(_stateList, (o, l, d) => { return InputManager.AttackKeyDown; }));
+         _stateLinkList.Add(new StateLinkAdvance<SwimState, AttackState>(_stateList, (o, l, d) => { return d.CanAttack && InputManager.AttackKeyDown; }));
          _stateLinkList.Add(new StateLinkAdvance<AttackState, SwimState>(_stateList, (o, l, d) => { return d.AttackCooldownRemain <= 0; }));
     }
 }
