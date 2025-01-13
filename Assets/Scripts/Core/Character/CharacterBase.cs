@@ -30,6 +30,9 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private float _dashCooldown = 0.25f;
     [SerializeField] private float _dashCooldownRemain = 0.25f;
 
+    [SerializeField] private float _attackCooldown = 0.35f;
+    [SerializeField] private float _attackCooldownRemain = 0.35f;
+
     [Header("Reference")]
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Collider2D _collider;
@@ -87,10 +90,20 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
             _dashCooldownRemain = Mathf.Clamp(_dashCooldownRemain, 0, _dashCooldown);
         }
     }
+    public float AttackCooldownRemain
+    { 
+        get => _attackCooldownRemain; 
+        set
+        {
+            _attackCooldownRemain = value;
+            _attackCooldownRemain = Mathf.Clamp(_attackCooldownRemain, 0, _attackCooldown);
+        }
+    }
     public bool IsImuttable { get => _imuttable; }
     public float Health{ get => _health; }
     public float MaxHealth { get => _maxHealth; }
     public Animator Animator { get => _animator; }
+    public Rigidbody2D Rigidbody2D { get => _rb; }
 
     #region Monobehaviour
 
@@ -120,6 +133,9 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     protected virtual void Update()
     {
         _stateMachine.Update(this);
+
+        if(_dashCooldownRemain > 0) _dashCooldownRemain = Mathf.Clamp(_dashCooldownRemain - Time.deltaTime, 0, _dashCooldownRemain);
+        if(_attackCooldownRemain > 0) _attackCooldownRemain = Mathf.Clamp(_attackCooldownRemain - Time.deltaTime, 0, _attackCooldownRemain);
     }
     #endregion
 

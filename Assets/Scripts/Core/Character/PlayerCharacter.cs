@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +6,7 @@ public class PlayerCharacter : CharacterBase, IBreath
 {
     [Header("Attack")]
     [SerializeField] private GameObject _attackRangeObject;
-    [SerializeField] private float _orbitDistance;
+    [SerializeField] private float _orbitDistance = 1f;
 
     [Header("Breath")]
     private bool _canSpendOxygen = true;
@@ -79,10 +78,10 @@ public class PlayerCharacter : CharacterBase, IBreath
 
     public override void Attack()
     {
-        Vector2 aimPos = InputManager.AimPos;
+        Vector2 aimPos = Mouse.current.position.ReadValue();
+        Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(aimPos);
         Vector2 characterPos = transform.position;
-
-        Vector2 direction = aimPos - characterPos;
+        Vector2 direction = aimWorldPos - characterPos;
 
         float angle = Mathf.Atan2(direction.y, direction.x);
         Vector2 newPos = characterPos + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * _orbitDistance;

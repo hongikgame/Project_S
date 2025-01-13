@@ -80,15 +80,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Aim"",
-                    ""type"": ""Value"",
-                    ""id"": ""85677fac-79c1-431b-8dd2-2ff7ccdb3aaa"",
-                    ""expectedControlType"": ""Delta"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -106,7 +97,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""54c82c94-acc7-4dd4-896f-0672b203849c"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -117,7 +108,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""22d76761-5187-4d35-acc1-efbbef17d4fe"",
-                    ""path"": ""<Keyboard>/downArrow"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -128,7 +119,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""4a1703a6-0b6a-4c39-b755-03ce1cc987a0"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -139,7 +130,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""09228ad0-9166-4f77-8a67-c7f991666474"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -248,8 +239,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a87489fe-cd0c-4d18-88fa-7e2d8ee463b9"",
-                    ""path"": ""<Keyboard>/x"",
+                    ""id"": ""0c93a1e2-1ff1-4621-b30d-565ecc4dc630"",
+                    ""path"": ""<Mouse>/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -259,8 +250,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0c93a1e2-1ff1-4621-b30d-565ecc4dc630"",
-                    ""path"": ""<Mouse>/press"",
+                    ""id"": ""88129281-5e7d-42b9-9258-93726ec542e0"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -276,17 +267,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Skill"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""04d851fe-0272-43de-8953-1b22c3182f17"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -331,7 +311,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Skill = m_Player.FindAction("Skill", throwIfNotFound: true);
-        m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -402,7 +381,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Skill;
-    private readonly InputAction m_Player_Aim;
     public struct PlayerActions
     {
         private @GameInput m_Wrapper;
@@ -413,7 +391,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Skill => m_Wrapper.m_Player_Skill;
-        public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -441,9 +418,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Skill.started += instance.OnSkill;
             @Skill.performed += instance.OnSkill;
             @Skill.canceled += instance.OnSkill;
-            @Aim.started += instance.OnAim;
-            @Aim.performed += instance.OnAim;
-            @Aim.canceled += instance.OnAim;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -466,9 +440,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Skill.started -= instance.OnSkill;
             @Skill.performed -= instance.OnSkill;
             @Skill.canceled -= instance.OnSkill;
-            @Aim.started -= instance.OnAim;
-            @Aim.performed -= instance.OnAim;
-            @Aim.canceled -= instance.OnAim;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -540,7 +511,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnSkill(InputAction.CallbackContext context);
-        void OnAim(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

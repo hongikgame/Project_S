@@ -10,7 +10,6 @@ public static class InputManager
 
     public static bool AttackKeyDown { get; set; } = false;
     public static bool DashKeyDown { get; set; } = false;
-    public static Vector2 AimPos { get; set; }
 
     static InputManager()
     {
@@ -21,7 +20,6 @@ public static class InputManager
         _inputActions.Player.Attack.canceled += OnPlayerAttack;
         _inputActions.Player.Dash.performed += OnPlayerDash;
         _inputActions.Player.Dash.canceled += OnPlayerDash;
-        _inputActions.Player.Aim.performed += OnPlayerAim;
     }
 
     public static void OnPlayerAttack(InputAction.CallbackContext context)
@@ -32,11 +30,6 @@ public static class InputManager
     public static void OnPlayerDash(InputAction.CallbackContext context)
     {
         DashKeyDown = context.ReadValueAsButton();
-    }
-
-    public static void OnPlayerAim(InputAction.CallbackContext context)
-    {
-        AimPos = context.ReadValue<Vector2>();
     }
 
     public static void SetPlayerInputActivate(bool active)

@@ -58,15 +58,6 @@
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Aim",
-                    "type": "Value",
-                    "id": "85677fac-79c1-431b-8dd2-2ff7ccdb3aaa",
-                    "expectedControlType": "Delta",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -84,7 +75,7 @@
                 {
                     "name": "up",
                     "id": "54c82c94-acc7-4dd4-896f-0672b203849c",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -95,7 +86,7 @@
                 {
                     "name": "down",
                     "id": "22d76761-5187-4d35-acc1-efbbef17d4fe",
-                    "path": "<Keyboard>/downArrow",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -106,7 +97,7 @@
                 {
                     "name": "left",
                     "id": "4a1703a6-0b6a-4c39-b755-03ce1cc987a0",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -117,7 +108,7 @@
                 {
                     "name": "right",
                     "id": "09228ad0-9166-4f77-8a67-c7f991666474",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -226,8 +217,8 @@
                 },
                 {
                     "name": "",
-                    "id": "a87489fe-cd0c-4d18-88fa-7e2d8ee463b9",
-                    "path": "<Keyboard>/x",
+                    "id": "0c93a1e2-1ff1-4621-b30d-565ecc4dc630",
+                    "path": "<Mouse>/press",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -237,8 +228,8 @@
                 },
                 {
                     "name": "",
-                    "id": "0c93a1e2-1ff1-4621-b30d-565ecc4dc630",
-                    "path": "<Mouse>/press",
+                    "id": "88129281-5e7d-42b9-9258-93726ec542e0",
+                    "path": "<DualShockGamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -254,17 +245,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Skill",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "04d851fe-0272-43de-8953-1b22c3182f17",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
