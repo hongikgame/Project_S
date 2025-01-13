@@ -18,12 +18,14 @@ public class StateMachine
             if (link.CheckCondition(characterBase))
             {
                 _currentState = link.NewState;
-                break;
+                return;
             }
         }
+
+        Debug.Log("State 할당 불가, index0을 할당합니다.");
     }
 
-    public void Update(CharacterBase character)
+    public void FixedUpdate(CharacterBase character)
     {
         foreach (StateLink link in _stateLinkList)
         {
@@ -38,5 +40,15 @@ public class StateMachine
         }
 
         _currentState.FixedUpdate();
+    }
+
+    public void Update(CharacterBase character)
+    {
+        _currentState?.Update();
+    }
+
+    public string GetCurrentStateName()
+    {
+        return _currentState?.GetType().Name;
     }
 }

@@ -21,6 +21,11 @@ public abstract class StateBase
 
     }
 
+    public virtual void Update()
+    {
+
+    }
+
     public virtual void Finish()
     {
 

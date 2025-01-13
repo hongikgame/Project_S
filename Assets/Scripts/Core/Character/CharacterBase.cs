@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CharacterBase : MonoBehaviour, ICharacter, IHealth
+public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
 {
     public bool IsDebug = false;
 
@@ -20,13 +20,15 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private Bounds _initBound;
     [SerializeField] private Vector2 _position;
     [SerializeField] private Vector2 _velocity;
-    [SerializeField] private Vector2 _input;
+    [SerializeField] private Vector2 _inputMove;
     [SerializeField] private FlowWater _flowWater;
     [SerializeField] private CharacterDirection _direction;
     [SerializeField] private bool _isGround = true;
+
+    [SerializeField] private bool _inputDash = true;
     [SerializeField] private int _dashCount = 3;
-    [SerializeField] private float _dashCooldown = 1.5f;
-    [SerializeField] private float _dashCooldownRemain = 1.5f;
+    [SerializeField] private float _dashCooldown = 0.25f;
+    [SerializeField] private float _dashCooldownRemain = 0.25f;
 
     [Header("Reference")]
     [SerializeField] private Rigidbody2D _rb;
@@ -36,6 +38,7 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private Transform _cameraTarget;
 
     public string Name { get { return _name; } }
+    public StateMachine StateMachine { get { return _stateMachine; } }
     public Vector2 Velocity
     {
         get => _velocity;
@@ -47,7 +50,7 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
             else if (_velocity.x < -0.1) Direction = CharacterDirection.Left;
         }
     }
-    public Vector2 Input { get => _input; set => _input = value; }
+    public Vector2 Input { get => _inputMove; set => _inputMove = value; }
     public FlowWater FlowWater { get => _flowWater; set => _flowWater = value; }
     public CharacterDirection Direction
     {
@@ -70,10 +73,20 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
             _direction = value;
         }
     }
-    public bool IsOnWater { set { _isOnWater = value; } }
-    public bool IsGround => _isGround;
+    public bool IsInfluenceByFlowWater { get => _isInfluenceByFlowWater; set => _isInfluenceByFlowWater = value; }
+    public bool IsOnWater { get => _isOnWater; set => _isOnWater = value; }
+    public bool IsGround { get => _isGround; set => _isGround = value; }
+    public bool InputDash { get => _inputDash; set => _inputDash = value; }
     public int DashCount => _dashCount;
-    public float DashCooldownRemain => _dashCooldownRemain;
+    public float DashCooldownRemain
+    {
+        get => _dashCooldownRemain;
+        set
+        {
+            _dashCooldownRemain = value;
+            _dashCooldownRemain = Mathf.Clamp(_dashCooldownRemain, 0, _dashCooldown);
+        }
+    }
     public bool IsImuttable { get => _imuttable; }
     public float Health{ get => _health; }
     public float MaxHealth { get => _maxHealth; }
@@ -99,11 +112,15 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
         //업데이트
         //_velocity = _rb.velocity;
         _velocity = Vector2.zero;
-        _stateMachine.Update(this);
+        _stateMachine.FixedUpdate(this);
         UpdateRigidbodyVelocity();
         //UpdateZRotation();
     }
 
+    protected virtual void Update()
+    {
+        _stateMachine.Update(this);
+    }
     #endregion
 
     #region ICharacter
@@ -159,10 +176,10 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
 
     private void UpdateZRotation()
     {
-        if (_input == Vector2.zero) return;
+        if (_inputMove == Vector2.zero) return;
         if (_isInfluenceByFlowWater)
         {
-            float angle = Mathf.Atan2(_input.y, _input.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(_inputMove.y, _inputMove.x) * Mathf.Rad2Deg;
             if (angle > 90)
             {
                 angle -= 180;
@@ -175,6 +192,9 @@ public class CharacterBase : MonoBehaviour, ICharacter, IHealth
         }
         
     }
+
+    public abstract void Attack();
+
 }
 
 public enum CharacterDirection
