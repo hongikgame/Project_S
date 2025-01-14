@@ -10,6 +10,7 @@ public class ProjectileBase : MonoBehaviour
 
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private GameObject _ownerObject;
+    [SerializeField] private IHealth _ownerHealth;
 
     public bool CanParrying { get => _canParrying; }
     public GameObject OwnerObject { get => _ownerObject; }
@@ -19,15 +20,14 @@ public class ProjectileBase : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
-    {
-        Debug.Log(name + " velocity: " + _rb.velocity.ToString());
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<IHealth>(out IHealth iHealth))
         {
+            if (iHealth == _ownerHealth)
+            {
+                return;
+            }
             iHealth.GetDamage(null, _damage);
         }
 
@@ -37,6 +37,10 @@ public class ProjectileBase : MonoBehaviour
     public void Shooting(GameObject OwnerObject, Vector2 direction)
     {
         _ownerObject = OwnerObject;
+        if(_ownerObject.TryGetComponent<IHealth>(out IHealth ownerHealth))
+        {
+            _ownerHealth = ownerHealth;
+        }
 
         _rb.velocity = direction * _speed;
     }

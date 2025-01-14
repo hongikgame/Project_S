@@ -128,7 +128,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     private void FixedUpdate()
     {
         //죽었으면 리턴
-        if (_health == 0) return;
+        //if (_health == 0) return;
 
         //업데이트
         _velocity = Vector2.zero;

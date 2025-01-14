@@ -23,6 +23,7 @@ public class FireSwordSkill : SkillBase
         _delay = new WaitForSeconds(AttackDuration);
 
         if(AttackDuration < ParryingDuration) AttackDuration = ParryingDuration;
+        _collider.enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -87,7 +88,7 @@ public class FireSwordSkill : SkillBase
     private void ParryingProjectile(ProjectileBase projectile)
     {
         Vector3 targetPos = projectile.OwnerObject.transform.position;
-        Vector3 direction = targetPos - transform.position;
+        Vector3 direction = (targetPos - transform.position).normalized;
 
         projectile.Shooting(gameObject, direction);
     }
