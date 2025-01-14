@@ -30,6 +30,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private int _dashCount = 3;
     [SerializeField] private float _dashCooldown = 3f;
     [SerializeField] private float _dashCooldownRemain = 0f;
+    [SerializeField] private float _dashStackRemain = 0f;
     [SerializeField] private float _dashDuration = 0.25f;
     [SerializeField] private float _dashDurationRemain = 0f;
 
