@@ -5,6 +5,7 @@ using UnityEngine;
 public interface IHealth
 {
     public bool IsImuttable { get; }
+    public bool IsTemporaryImuttable { get; set; }
     float Health { get; }
     float MaxHealth { get; }
 

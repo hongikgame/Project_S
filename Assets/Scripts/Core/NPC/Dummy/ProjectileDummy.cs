@@ -15,6 +15,7 @@ public class ProjectileDummy : MonoBehaviour, IHealth
     public float RecoverCooldownRemain { get; set; } = 3f;
     public float AttackCooldown { get => _attackCooldown; }
     public float AttackCooldownRemain { get => _attackCooldownRemain; }
+    public bool IsTemporaryImuttable { get; set; }
 
     public Image HealthBar;
     public GameObject Projectile;

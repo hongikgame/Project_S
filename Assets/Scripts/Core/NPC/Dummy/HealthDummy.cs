@@ -13,6 +13,8 @@ public class HealthDummy : MonoBehaviour, IHealth
 
     public float RecoverCooldown { get; private set; } = 3f;
     public float RecoverCooldownRemain { get; set; } = 3f;
+    public bool IsTemporaryImuttable { get; set; }
+
     public Image HealthBar;
 
     private void Update()

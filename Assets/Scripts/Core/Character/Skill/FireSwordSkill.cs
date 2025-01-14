@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class FireSwordSkill : SkillBase
 {
-    public CharacterBase OwnerCharacter = null;
     public float OrbitDistance = 1f;
     public float ParryingDuration = 0.08f;
     public float AttackDuration = 0.20f;
@@ -14,13 +13,11 @@ public class FireSwordSkill : SkillBase
     private bool _isParrying = false;
     private SpriteRenderer _spriteRenderer;
     private Collider2D _collider;
-    private WaitForSeconds _delay;
 
     private void Awake()
     {
         _collider = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _delay = new WaitForSeconds(AttackDuration);
 
         if(AttackDuration < ParryingDuration) AttackDuration = ParryingDuration;
         _collider.enabled = false;
@@ -30,8 +27,8 @@ public class FireSwordSkill : SkillBase
     {
         if(collision.TryGetComponent<IHealth>(out IHealth iHealth))
         {
-            if (OwnerCharacter == iHealth) Debug.Log("Attack myself");
-            else iHealth.GetDamage(OwnerCharacter, AttackDamage);
+            if (_ownerHealth == iHealth) Debug.Log("Attack myself");
+            else iHealth.GetDamage(_ownerCharacter, AttackDamage);
         }
 
         if (_isParrying)
@@ -43,13 +40,13 @@ public class FireSwordSkill : SkillBase
         }
     }
 
-    public override void StartAttack(CharacterBase owner)
+    public override void StartAttack(CharacterBase owner, float time)
     {
-        OwnerCharacter = owner;
+        base.StartAttack(owner, time);
 
         Vector2 aimPos = Mouse.current.position.ReadValue();
         Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(aimPos);
-        Vector2 characterPos = OwnerCharacter.transform.position;
+        Vector2 characterPos = _ownerCharacter.transform.position;
         Vector2 direction = aimWorldPos - characterPos;
 
         float angle = Mathf.Atan2(direction.y, direction.x);
@@ -64,13 +61,7 @@ public class FireSwordSkill : SkillBase
         StartCoroutine(AttackCoroutine());
     }
 
-
-    public override void FinishAttack()
-    {
-        
-    }
-
-    private IEnumerator AttackCoroutine()
+    protected override IEnumerator AttackCoroutine()
     {
         _collider.enabled = true;
         _isParrying = true;

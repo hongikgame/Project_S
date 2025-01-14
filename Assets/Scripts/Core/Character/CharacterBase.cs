@@ -11,7 +11,8 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [Header("Health")]
     [SerializeField] protected float _health = 100.0f;
     [SerializeField] protected float _maxHealth = 100.0f;
-    [SerializeField] protected bool _imuttable = true;
+    [SerializeField] protected bool _imuttable = false;
+    [SerializeField] protected bool _temporaryImuttable = false;
 
     [Header("Movement")]
     [SerializeField] protected bool _isInfluenceByFlowWater = false;
@@ -31,13 +32,13 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private int _dashCount = 3;
     [SerializeField] private float _dashCooldown = 3f;
     [SerializeField] private float _dashCooldownRemain = 0f;
-    [SerializeField] private float _dashDuration = 0.25f;
+    [SerializeField] protected float _dashDuration = 0.25f;
     [SerializeField] private float _dashDurationRemain = 0f;
 
     [Header("Cooldown - Attack")]
     [SerializeField] private float _attackCooldown = 1f;
     [SerializeField] private float _attackCooldownRemain = 0f;
-    [SerializeField] private float _attackDuration = 0.35f;
+    [SerializeField] protected float _attackDuration = 0.35f;
     [SerializeField] private float _attackDurationRemain = 0f;
 
     [Header("Reference")]
@@ -84,7 +85,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
         }
     }
     public bool IsInfluenceByFlowWater { get => _isInfluenceByFlowWater; set => _isInfluenceByFlowWater = value; }
-    public bool IsOnWater 
+    public virtual bool IsOnWater 
     { 
         get => _isOnWater; 
         set
@@ -98,7 +99,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     { 
         get
         {
-            return _isOnWater ? _dashCount > 0 : _dashCount > _maxDashCount - 1;
+            return _dashCount > 0;
         } 
     }
     public int DashCount { get => _dashCount; }
@@ -123,6 +124,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
         }
     }
     public bool IsImuttable { get => _imuttable; }
+    public bool IsTemporaryImuttable { get => _temporaryImuttable; set => _temporaryImuttable = value; }
     public float Health{ get => _health; }
     public float MaxHealth { get => _maxHealth; }
     public Animator Animator { get => _animator; }
@@ -191,10 +193,13 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     #region IHealth
     public void GetDamage(ICharacter perp, float amount)
     {
-        _health = Mathf.Clamp(_health - amount, 0f, _maxHealth);
-        if (_health <= 0f)
+        if(!_imuttable && !IsTemporaryImuttable)
         {
-            Die(perp);
+            _health = Mathf.Clamp(_health - amount, 0f, _maxHealth);
+            if (_health <= 0f)
+            {
+                Die(perp);
+            }
         }
     }
 

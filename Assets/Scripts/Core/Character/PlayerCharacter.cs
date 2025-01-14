@@ -6,6 +6,7 @@ public class PlayerCharacter : CharacterBase, IBreath
 {
     [Header("Attack")]
     [SerializeField] private SkillBase _fireSwordSkill;
+    [SerializeField] private SkillBase _drillDashSkill;
 
     [Header("Breath")]
     [SerializeField] private bool _canSpendOxygen = true;
@@ -16,6 +17,25 @@ public class PlayerCharacter : CharacterBase, IBreath
     private WaitForSeconds _oxygenSpendWFS;
     private Coroutine _spendOxygenCoroutine;
 
+    public override bool IsOnWater
+    {
+        get => _isOnWater;
+        set
+        {
+            _isOnWater = value;
+            _rb.gravityScale = value ? 0 : _gravityScale;
+            if(!value)
+            {
+                _oxygen = _maxOxygen;
+                if (_spendOxygenCoroutine != null) StopCoroutine(_spendOxygenCoroutine);
+            }
+            else
+            {
+                if (_spendOxygenCoroutine != null) StopCoroutine(_spendOxygenCoroutine);
+                _spendOxygenCoroutine = StartCoroutine(SpendOxygen());
+            }
+        }
+    }
     public bool CanSpendOxygen => _canSpendOxygen;
     public float MaxOxygen => _maxOxygen;
     public float Oxygen => _oxygen;
@@ -27,7 +47,6 @@ public class PlayerCharacter : CharacterBase, IBreath
         _stateMachine.ReplaceStateData(this, playerStateMachineData);
 
         _oxygenSpendWFS = new WaitForSeconds(1/_oxygenSpendRate);
-        _spendOxygenCoroutine = StartCoroutine(SpendOxygen());
     }
 
     protected override void OnEnable()
@@ -92,11 +111,12 @@ public class PlayerCharacter : CharacterBase, IBreath
         if(aimWorldPos.x < characterPos.x) Direction = CharacterDirection.Left;
         else if (aimWorldPos.x > characterPos.x) Direction = CharacterDirection.Right;
 
-        _fireSwordSkill.StartAttack(this);
+        _fireSwordSkill.StartAttack(this, _attackDuration);
     }
 
     public override void Dash()
     {
         base.Dash();
+        _drillDashSkill.StartAttack(this, _dashDuration);
     }
 }
