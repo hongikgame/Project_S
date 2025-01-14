@@ -14,6 +14,7 @@ public class UI_Debug : SingletonMonobehavior<UI_Debug>
     public TMP_Text TargetCharacterWaterState;
     public TMP_Text TargetCharacterHealthData;
     public TMP_Text TargetCharacterOxygenData;
+    public TMP_Text TargetCharacterDashStatus;
     public TMP_Text TargetCharacterDash;
     public TMP_Text TargetCharacterAttack;
 
@@ -44,6 +45,7 @@ public class UI_Debug : SingletonMonobehavior<UI_Debug>
             TargetCharacterOxygenData.text = "MaxOxygen: " + iBreath.MaxOxygen.ToString() + " CurrentOxygen: " + iBreath.Oxygen.ToString();
         }
 
+        TargetCharacterDashStatus.text = "MaxDashCount: " + TargetCharacter.MaxDashCount + " CurrentDashCount: " + TargetCharacter.DashCount;
         TargetCharacterDash.text = "DashDurationRemain: " + TargetCharacter.DashCooldownRemain + " CanDash: " + TargetCharacter.CanDash.ToString();
         TargetCharacterAttack.text = "AttackDurationRemain: " + TargetCharacter.AttackCooldownRemain + " CanDash: " + TargetCharacter.CanAttack.ToString();
     }

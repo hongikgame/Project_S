@@ -41,21 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: BackGround
+  - name: Background
     uniqueID: 3553123575
     locked: 0
-  - name: BaTileMap
+  - name: Collider
     uniqueID: 2012080429
     locked: 0
   - name: Projectile
     uniqueID: 969256843
     locked: 0
-  - name: Player
-    uniqueID: 262855337
-    locked: 0
-  - name: Npc
+  - name: Character
     uniqueID: 2947923179
     locked: 0
-  - name: FoTileMap
+  - name: Foreground
     uniqueID: 2198511597
     locked: 0

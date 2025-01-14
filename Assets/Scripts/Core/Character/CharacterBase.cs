@@ -6,15 +6,14 @@ using UnityEngine.InputSystem;
 public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
 {
     [Header("Data")]
-    private string _name = "CharacterBase";
+    [SerializeField] private string _name = "CharacterBase";
 
     [Header("Health")]
-    private float _health = 100.0f;
-    private float _maxHealth = 100.0f;
-    private bool _imuttable = true;
+    [SerializeField] private float _health = 100.0f;
+    [SerializeField] private float _maxHealth = 100.0f;
+    [SerializeField] private bool _imuttable = true;
 
     [Header("Movement")]
-    protected StateMachine _stateMachine;
     [SerializeField] private bool _isInfluenceByFlowWater = false;
     [SerializeField] private bool _isOnWater = false;
     [SerializeField] private Bounds _initBound;
@@ -24,17 +23,17 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private FlowWater _flowWater;
     [SerializeField] private CharacterDirection _direction;
     [SerializeField] private bool _isGround = true;
+    protected StateMachine _stateMachine;
 
-    [Header("Movement - Dash")]
+    [Header("Cooldown - Dash")]
     [SerializeField] private int _maxDashCount = 3;
     [SerializeField] private int _dashCount = 3;
     [SerializeField] private float _dashCooldown = 3f;
     [SerializeField] private float _dashCooldownRemain = 0f;
-    [SerializeField] private float _dashStackRemain = 0f;
     [SerializeField] private float _dashDuration = 0.25f;
     [SerializeField] private float _dashDurationRemain = 0f;
 
-    [Header("Movement - Attack")]
+    [Header("Cooldown - Attack")]
     [SerializeField] private float _attackCooldown = 1f;
     [SerializeField] private float _attackCooldownRemain = 0f;
     [SerializeField] private float _attackDuration = 0.35f;
@@ -86,7 +85,9 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     public bool IsInfluenceByFlowWater { get => _isInfluenceByFlowWater; set => _isInfluenceByFlowWater = value; }
     public bool IsOnWater { get => _isOnWater; set => _isOnWater = value; }
     public bool IsGround { get => _isGround; set => _isGround = value; }
-    public bool CanDash { get => _dashCooldownRemain <= 0 && _dashCount > 0; }
+    public bool CanDash { get => _dashCount > 0; }
+    public int DashCount { get => _dashCount; }
+    public int MaxDashCount { get => _maxDashCount; }
     public float DashCooldownRemain
     {
         get => _dashDurationRemain;
@@ -140,8 +141,11 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     {
         _stateMachine.Update(this);
 
+        //Attack
         if(_attackCooldownRemain > 0) _attackCooldownRemain -= Time.deltaTime;
         else _attackCooldownRemain = 0;
+
+        //Dash
         if (_dashCooldownRemain > 0) _dashCooldownRemain -= Time.deltaTime;
         else
         {
@@ -149,7 +153,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
             if(_dashCount < _maxDashCount)
             {
                 _dashCount++;
-                //_dashCooldownRemain = 
+                _dashCooldownRemain = _dashCooldown;
             }
         }
     }
