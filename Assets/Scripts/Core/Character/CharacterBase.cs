@@ -26,6 +26,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private bool _isGround = true;
 
     [Header("Movement - Dash")]
+    [SerializeField] private int _maxDashCount = 3;
     [SerializeField] private int _dashCount = 3;
     [SerializeField] private float _dashCooldown = 3f;
     [SerializeField] private float _dashCooldownRemain = 0f;
@@ -84,8 +85,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     public bool IsInfluenceByFlowWater { get => _isInfluenceByFlowWater; set => _isInfluenceByFlowWater = value; }
     public bool IsOnWater { get => _isOnWater; set => _isOnWater = value; }
     public bool IsGround { get => _isGround; set => _isGround = value; }
-    public bool CanDash { get => _dashCooldownRemain <= 0; }
-    public int DashCount => _dashCount;
+    public bool CanDash { get => _dashCooldownRemain <= 0 && _dashCount > 0; }
     public float DashCooldownRemain
     {
         get => _dashDurationRemain;
@@ -142,7 +142,15 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
         if(_attackCooldownRemain > 0) _attackCooldownRemain -= Time.deltaTime;
         else _attackCooldownRemain = 0;
         if (_dashCooldownRemain > 0) _dashCooldownRemain -= Time.deltaTime;
-        else _dashCooldownRemain = 0;
+        else
+        {
+            _dashCooldownRemain = 0;
+            if(_dashCount < _maxDashCount)
+            {
+                _dashCount++;
+                //_dashCooldownRemain = 
+            }
+        }
     }
     #endregion
 
@@ -223,6 +231,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
 
     public virtual void Dash()
     {
+        _dashCount --;
         _dashCooldownRemain = _dashCooldown;
     }
 
