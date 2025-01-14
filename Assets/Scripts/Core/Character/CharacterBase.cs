@@ -6,23 +6,24 @@ using UnityEngine.InputSystem;
 public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
 {
     [Header("Data")]
-    [SerializeField] private string _name = "CharacterBase";
+    [SerializeField] protected string _name = "CharacterBase";
 
     [Header("Health")]
-    [SerializeField] private float _health = 100.0f;
-    [SerializeField] private float _maxHealth = 100.0f;
-    [SerializeField] private bool _imuttable = true;
+    [SerializeField] protected float _health = 100.0f;
+    [SerializeField] protected float _maxHealth = 100.0f;
+    [SerializeField] protected bool _imuttable = true;
 
     [Header("Movement")]
-    [SerializeField] private bool _isInfluenceByFlowWater = false;
-    [SerializeField] private bool _isOnWater = false;
-    [SerializeField] private Bounds _initBound;
-    [SerializeField] private Vector2 _position;
-    [SerializeField] private Vector2 _velocity;
-    [SerializeField] private Vector2 _inputMove;
-    [SerializeField] private FlowWater _flowWater;
-    [SerializeField] private CharacterDirection _direction;
-    [SerializeField] private bool _isGround = true;
+    [SerializeField] protected bool _isInfluenceByFlowWater = false;
+    [SerializeField] protected bool _isOnWater = false;
+    [SerializeField] protected Bounds _initBound;
+    [SerializeField] protected Vector2 _position;
+    [SerializeField] protected Vector2 _velocity;
+    [SerializeField] protected float _gravityScale;
+    [SerializeField] protected Vector2 _inputMove;
+    [SerializeField] protected FlowWater _flowWater;
+    [SerializeField] protected CharacterDirection _direction;
+    [SerializeField] protected bool _isGround = true;
     protected StateMachine _stateMachine;
 
     [Header("Cooldown - Dash")]
@@ -40,11 +41,11 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] private float _attackDurationRemain = 0f;
 
     [Header("Reference")]
-    [SerializeField] private Rigidbody2D _rb;
-    [SerializeField] private Collider2D _collider;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private Transform _cameraTarget;
+    [SerializeField] protected Rigidbody2D _rb;
+    [SerializeField] protected Collider2D _collider;
+    [SerializeField] protected SpriteRenderer _spriteRenderer;
+    [SerializeField] protected Animator _animator;
+    [SerializeField] protected Transform _cameraTarget;
 
     public string Name { get { return _name; } }
     public StateMachine StateMachine { get { return _stateMachine; } }
@@ -83,9 +84,23 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
         }
     }
     public bool IsInfluenceByFlowWater { get => _isInfluenceByFlowWater; set => _isInfluenceByFlowWater = value; }
-    public bool IsOnWater { get => _isOnWater; set => _isOnWater = value; }
+    public bool IsOnWater 
+    { 
+        get => _isOnWater; 
+        set
+        {
+            _isOnWater = value;
+            _rb.gravityScale = value ? 0 : _gravityScale;
+        }
+    }
     public bool IsGround { get => _isGround; set => _isGround = value; }
-    public bool CanDash { get => _dashCount > 0; }
+    public bool CanDash
+    { 
+        get
+        {
+            return _isOnWater ? _dashCount > 0 : _dashCount > _maxDashCount - 1;
+        } 
+    }
     public int DashCount { get => _dashCount; }
     public int MaxDashCount { get => _maxDashCount; }
     public float DashCooldownRemain
@@ -188,7 +203,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
         _health = _maxHealth;
     }
 
-    public void Die(ICharacter perp = null)
+    public virtual void Die(ICharacter perp = null)
     {
         //가해자, 사망원인 처리
     }

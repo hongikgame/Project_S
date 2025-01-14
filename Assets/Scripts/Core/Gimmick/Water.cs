@@ -19,4 +19,16 @@ public class Water : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            CharacterBase cb = collision.gameObject.GetComponent<CharacterBase>();
+            if (cb != null)
+            {
+                cb.IsOnWater = false;
+            }
+        }
+    }
 }

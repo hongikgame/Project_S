@@ -8,11 +8,11 @@ public class PlayerCharacter : CharacterBase, IBreath
     [SerializeField] private SkillBase _fireSwordSkill;
 
     [Header("Breath")]
-    private bool _canSpendOxygen = true;
-    private float _maxOxygen = 100.0f;
-    private float _oxygen = 100.0f;
-    private float _oxygenSpendRate = 1f;
-    private float _oxygenCPU = 2f;
+    [SerializeField] private bool _canSpendOxygen = true;
+    [SerializeField] private float _maxOxygen = 100.0f;
+    [SerializeField] private float _oxygen = 100.0f;
+    [SerializeField] private float _oxygenSpendRate = 1f;
+    [SerializeField] private float _oxygenCPU = 2f;
     private WaitForSeconds _oxygenSpendWFS;
     private Coroutine _spendOxygenCoroutine;
 
@@ -49,9 +49,15 @@ public class PlayerCharacter : CharacterBase, IBreath
         Input = context.ReadValue<Vector2>();
     }
 
+    public override void Die(ICharacter perp = null)
+    {
+        _oxygen = _maxOxygen;
+        _health = _maxHealth;
+    }
+
     public void DecreaseOxygen(float amount)
     {
-        Mathf.Clamp(_oxygen - amount, 0, _oxygen);
+        _oxygen = Mathf.Clamp(_oxygen - amount, 0, _oxygen);
         if (_oxygen <= 0)
         {
             Die();
@@ -65,9 +71,14 @@ public class PlayerCharacter : CharacterBase, IBreath
 
     protected IEnumerator SpendOxygen()
     {
-        yield return _oxygenSpendWFS;
-
-        DecreaseOxygen(_oxygenCPU);
+        while(true)
+        {
+            if (_isOnWater)
+            {
+                DecreaseOxygen(_oxygenCPU);
+            }
+            yield return _oxygenSpendWFS;
+        }
     }
 
     public override void Attack()

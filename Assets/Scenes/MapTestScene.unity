@@ -827,6 +827,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5400573418242943810, guid: 9c9482af425c9d24dbad9b9390f6282f, type: 3}
+      propertyPath: _dashDuration
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400573418242943810, guid: 9c9482af425c9d24dbad9b9390f6282f, type: 3}
+      propertyPath: _gravityScale
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400573418242943810, guid: 9c9482af425c9d24dbad9b9390f6282f, type: 3}
+      propertyPath: _isInfluenceByFlowWater
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5956406243734000697, guid: 9c9482af425c9d24dbad9b9390f6282f, type: 3}
       propertyPath: m_Name
       value: '@PlayerTest'
@@ -10195,7 +10207,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 14.07
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -74111,7 +74123,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1637787692}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 14.07
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
