@@ -48,6 +48,9 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] protected Animator _animator;
     [SerializeField] protected Transform _cameraTarget;
 
+    //[Header("Reference")]
+    //private DetectorData _d
+
     public string Name { get { return _name; } }
     public StateMachine StateMachine { get { return _stateMachine; } }
     public Vector2 Velocity
