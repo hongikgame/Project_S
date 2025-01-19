@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AirState : StateBase
+public class WalkState : StateBase
 {
-    public AirState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public WalkState(CharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 
@@ -17,11 +17,6 @@ public class AirState : StateBase
     {
         base.FixedUpdate();
 
-        //_ownerCharacter.Velocity
-    }
-
-    public override void Finish()
-    {
-        base.Finish();
+        _ownerCharacter.Velocity = new Vector2(_ownerCharacter.Input.x * 5.0f, _ownerCharacter.Velocity.y);
     }
 }

@@ -8,8 +8,23 @@ public static class InputManager
 {
     private static @GameInput _inputActions;
 
+    private static bool _attackKeyDown = false;
+    private static bool _dashKeyDown = false;
+
     public static bool AttackKeyDown { get; set; } = false;
-    public static bool DashKeyDown { get; set; } = false;
+    public static bool DashKeyDown
+    { 
+        get
+        {
+            if(_dashKeyDown)
+            {
+                _dashKeyDown = false;
+                return true;
+            }
+            return false;
+        }
+        set => _dashKeyDown = value;
+    }
 
     static InputManager()
     {
@@ -51,5 +66,4 @@ public static class InputManager
         _inputActions.Player.Move.performed -= action;
         _inputActions.Player.Move.canceled -= action;
     }
-
 }

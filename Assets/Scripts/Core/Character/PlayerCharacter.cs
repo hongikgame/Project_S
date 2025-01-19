@@ -40,13 +40,16 @@ public class PlayerCharacter : CharacterBase, IBreath
     public float MaxOxygen => _maxOxygen;
     public float Oxygen => _oxygen;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _stateMachine = new StateMachine();
         PlayerStateMachineData playerStateMachineData = new PlayerStateMachineData(this, 0);
         _stateMachine.ReplaceStateData(this, playerStateMachineData);
 
         _oxygenSpendWFS = new WaitForSeconds(1/_oxygenSpendRate);
+        _detectorList.Add(new GroundDetector());
     }
 
     protected override void OnEnable()

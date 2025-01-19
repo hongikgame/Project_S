@@ -24,8 +24,13 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] protected Vector2 _inputMove;
     [SerializeField] protected FlowWater _flowWater;
     [SerializeField] protected CharacterDirection _direction;
-    [SerializeField] protected bool _isGround = true;
+
+    [Header("StateMachine")]
     protected StateMachine _stateMachine;
+    protected List<DetectorBase> _detectorList = new List<DetectorBase>();
+    [SerializeField] private DetectorStaticData _staticData;
+    [SerializeField] private DetectorData _currentData;
+    [SerializeField] private DetectorData _prevData;
 
     [Header("Cooldown - Dash")]
     [SerializeField] private int _maxDashCount = 3;
@@ -53,6 +58,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
 
     public string Name { get { return _name; } }
     public StateMachine StateMachine { get { return _stateMachine; } }
+    public DetectorData CurrentDetectorData { get => _currentData; }
     public Vector2 Velocity
     {
         get => _velocity;
@@ -97,7 +103,6 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
             _rb.gravityScale = value ? 0 : _gravityScale;
         }
     }
-    public bool IsGround { get => _isGround; set => _isGround = value; }
     public bool CanDash
     { 
         get
@@ -135,6 +140,19 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
 
     #region Monobehaviour
 
+    protected virtual void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<Collider2D>();
+
+        _initBound = _collider.bounds;
+
+        _staticData = new DetectorStaticData();
+        _currentData = new DetectorData();
+        _prevData = new DetectorData();
+        _staticData.Bounds = _initBound;
+    }
+
     protected virtual void OnEnable()
     {
         RegisterNPC();
@@ -151,7 +169,8 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
         //if (_health == 0) return;
 
         //업데이트
-        _velocity = Vector2.zero;
+        UpdateDetector();
+        _velocity = _rb.velocity;
         _stateMachine.FixedUpdate(this);
         UpdateRigidbodyVelocity();
         //UpdateZRotation();
@@ -250,6 +269,18 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
         
+    }
+
+    private void UpdateDetector()
+    {
+        _prevData = _currentData.DeepCopy;
+        _currentData = new DetectorData();
+        _staticData.Bounds = _collider.bounds;
+
+        foreach(DetectorBase detector in _detectorList)
+        {
+            detector.UpdateDetector(_currentData, _staticData);
+        }
     }
 
     public virtual void Attack()
