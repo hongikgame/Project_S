@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreath
 {
-    [Header("Data")]
+    [Header("ICharacter")]
     [SerializeField] protected string _name = "CharacterBase";
 
     [Header("Health")]
@@ -13,16 +13,6 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
     [SerializeField] protected float _maxHealth = 100.0f;
     [SerializeField] protected bool _imuttable = false;
     [SerializeField] protected bool _temporaryImuttable = false;
-
-    [Header("Movement")]
-    [SerializeField] protected bool _isInfluenceByFlowWater = false;
-    [SerializeField] protected Bounds _initBound;
-    [SerializeField] protected Vector2 _position;
-    [SerializeField] protected Vector2 _velocity;
-    [SerializeField] protected float _gravityScale;
-    [SerializeField] protected Vector2 _inputMove;
-    [SerializeField] protected FlowWater _flowWater;
-    [SerializeField] protected CharacterDirection _direction;
 
     [Header("Breath")]
     [SerializeField] protected bool _canSpendOxygen = true;
@@ -36,6 +26,16 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
     protected StateMachine _stateMachine;
     protected List<DetectorBase> _detectorList = new List<DetectorBase>();
     protected DetectorStaticData _staticData;
+
+    [Header("Movement")]
+    [SerializeField] protected bool _isInfluenceByFlowWater = false;
+    [SerializeField] protected Bounds _initBound;
+    [SerializeField] protected Vector2 _position;
+    [SerializeField] protected Vector2 _velocity;
+    [SerializeField] protected float _gravityScale;
+    [SerializeField] protected Vector2 _inputMove;
+    [SerializeField] protected FlowWater _flowWater;
+    [SerializeField] protected CharacterDirection _direction;
 
     [Header("Cooldown - Dash")]
     [SerializeField] private int _maxDashCount = 3;
@@ -58,12 +58,48 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
     [SerializeField] protected Animator _animator;
     [SerializeField] protected Transform _cameraTarget;
 
-    //[Header("Reference")]
-    //private DetectorData _d
+    //Getter or Setter
+    #region ICharacter
 
     public string Name { get { return _name; } }
+
+    #endregion
+
+    #region IHealth
+    public float Health { get => _health; }
+    public float MaxHealth { get => _maxHealth; }
+    public bool IsImuttable { get => _imuttable; }
+    public bool IsTemporaryImuttable { get => _temporaryImuttable; set => _temporaryImuttable = value; }
+    #endregion
+
+    #region IBreath
+    public bool CanSpendOxygen { get => _canSpendOxygen; }
+    public float MaxOxygen { get => _maxOxygen; }
+    public float Oxygen
+    {
+        get => _oxygen;
+        set
+        {
+            _oxygen = value;
+            _oxygen = Mathf.Clamp(_oxygen, 0, _maxOxygen);
+
+            if (_oxygen <= 0)
+            {
+                Die();
+            }
+        }
+    }
+    public float SpendOxygenInSecond { get => _spendOxygenInSecond; }
+    #endregion
+
+    #region StateMachine
     public StateMachine StateMachine { get { return _stateMachine; } }
     public DetectorData CurrentDetectorData { get => _currentData; }
+    #endregion
+
+    #region Movement
+
+    public bool IsInfluenceByFlowWater { get => _isInfluenceByFlowWater; set => _isInfluenceByFlowWater = value; }
     public Vector2 Velocity
     {
         get => _velocity;
@@ -98,13 +134,15 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
             _direction = value;
         }
     }
-    public bool IsInfluenceByFlowWater { get => _isInfluenceByFlowWater; set => _isInfluenceByFlowWater = value; }
+    #endregion
+
+    #region Skill
     public bool CanDash
-    { 
+    {
         get
         {
             return _dashCount > 0;
-        } 
+        }
     }
     public int DashCount { get => _dashCount; }
     public int MaxDashCount { get => _maxDashCount; }
@@ -119,43 +157,23 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
     }
     public bool CanAttack { get => _attackCooldownRemain <= 0; }
     public float AttackCooldownRemain
-    { 
-        get => _attackDurationRemain; 
+    {
+        get => _attackDurationRemain;
         set
         {
             _attackDurationRemain = value;
             _attackDurationRemain = Mathf.Clamp(_attackDurationRemain, 0, _attackDuration);
         }
     }
-    public bool IsImuttable { get => _imuttable; }
-    public bool IsTemporaryImuttable { get => _temporaryImuttable; set => _temporaryImuttable = value; }
-    public float Health{ get => _health; }
-    public float MaxHealth { get => _maxHealth; }
+    #endregion
 
-    public bool CanSpendOxygen { get => _canSpendOxygen; }
-    public float MaxOxygen { get => _maxOxygen; }
-    public float Oxygen
-    {
-        get => _oxygen;
-        set
-        {
-            _oxygen = value;
-            _oxygen = Mathf.Clamp(_oxygen, 0, _maxOxygen);
-
-            if(_oxygen <= 0)
-            {
-                Die();
-            }
-        }
-    }
-    public float SpendOxygenInSecond { get => _spendOxygenInSecond; }
+    #region Reference
     public Animator Animator { get => _animator; }
     public Rigidbody2D Rigidbody2D { get => _rb; }
-
-    
-
+    #endregion
 
 
+    //Func
     #region Monobehaviour
 
     protected virtual void Awake()
