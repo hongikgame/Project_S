@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectorWater : DetectorBase
+public class WaterDetector : DetectorBase
 {
     private LayerMask _waterLayermask = LayerMask.GetMask("Water");
 

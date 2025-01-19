@@ -13,7 +13,7 @@ public class OxygenBubble : MonoBehaviour
     {
         if(collision.TryGetComponent<IBreath>(out IBreath iBreath))
         {
-            iBreath.IncreaseOxygen(OxygenAmount);
+            iBreath.Oxygen += _oxygenAmount;
         }
     }
 }

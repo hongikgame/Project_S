@@ -5240,9 +5240,8 @@ GameObject:
   - component: {fileID: 1904166379}
   - component: {fileID: 1904166381}
   - component: {fileID: 1904166380}
-  - component: {fileID: 1904166383}
   - component: {fileID: 1904166382}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9435,18 +9434,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!114 &1904166383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1904166378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95e7c0373a7990f4a98ecbd374d0b52e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2000497076
 GameObject:
   m_ObjectHideFlags: 0
@@ -9611,6 +9598,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3384614896794095618, guid: 9c9482af425c9d24dbad9b9390f6282f, type: 3}
+      propertyPath: m_GravityScale
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5400573418242943810, guid: 9c9482af425c9d24dbad9b9390f6282f, type: 3}
       propertyPath: _gravityScale
       value: 5

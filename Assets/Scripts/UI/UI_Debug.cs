@@ -37,7 +37,7 @@ public class UI_Debug : SingletonMonobehavior<UI_Debug>
         TargetCharacterInputMoveText.text = "Input: " + TargetCharacter?.Input.ToString();
         TargetCharacterVelocityText.text = "Velocity: " + TargetCharacter?.Velocity.ToString();
         TargetCharacterCurrentStateText.text = "CurrentState: " + TargetCharacter?.StateMachine.GetCurrentStateName();
-        TargetCharacterWaterState.text = "IsOnWater: " + TargetCharacter?.IsOnWater.ToString() + " Influence Water: " + TargetCharacter?.IsInfluenceByFlowWater.ToString();
+        TargetCharacterWaterState.text = "IsOnWater: " + TargetCharacter?.CurrentDetectorData.IsOnWater.ToString() + " Influence Water: " + TargetCharacter?.IsInfluenceByFlowWater.ToString();
         TargetCharacterHealthData.text = "MaxHealth: " + TargetCharacter?.MaxHealth.ToString() + " CurrentHealth: " + TargetCharacter?.Health.ToString();
 
         if(TargetCharacter.TryGetComponent<IBreath>(out IBreath iBreath))

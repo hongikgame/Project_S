@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SwimState : StateBase
 {
+    private float _gravityScale;
+
     public SwimState(CharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
@@ -12,13 +14,27 @@ public class SwimState : StateBase
     {
         base.Start();
 
-        //_ownerCharacter.Animator?.SetBool("walk", true);
+        _gravityScale = _ownerCharacter.Rigidbody2D.gravityScale;
+        _ownerCharacter.Rigidbody2D.gravityScale = 0;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        _ownerCharacter.Velocity = new Vector2(_ownerCharacter.Input.x * 5.0f, _ownerCharacter.Input.y * 5.0f);
+        Vector2 velocity = new Vector2(_ownerCharacter.Input.x * 5.0f, _ownerCharacter.Input.y * 5.0f);
+        if(_ownerCharacter.IsInfluenceByFlowWater)
+        {
+            velocity += _ownerCharacter.FlowWater.FlowDirection;
+        }
+
+        _ownerCharacter.Velocity = velocity;
+    }
+
+    public override void Finish()
+    {
+        base.Finish();
+
+        _ownerCharacter.Rigidbody2D.gravityScale = _gravityScale;
     }
 }
