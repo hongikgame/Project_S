@@ -23,7 +23,7 @@ public class SwimState : StateBase
         base.FixedUpdate();
 
         Vector2 velocity = new Vector2(_ownerCharacter.Input.x * 5.0f, _ownerCharacter.Input.y * 5.0f);
-        if(_ownerCharacter.IsInfluenceByFlowWater)
+        if(_ownerCharacter.IsInfluenceByFlowWater && _ownerCharacter.FlowWater != null)
         {
             velocity += _ownerCharacter.FlowWater.FlowDirection;
         }

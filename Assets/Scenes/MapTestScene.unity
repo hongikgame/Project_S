@@ -10532,7 +10532,7 @@ GameObject:
   - component: {fileID: 1715392022}
   - component: {fileID: 1715392024}
   - component: {fileID: 1715392025}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74196,7 +74196,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 1637787692}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1637787692}
   m_Lens:
     FieldOfView: 60
