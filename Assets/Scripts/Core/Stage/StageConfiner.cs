@@ -23,6 +23,7 @@ public class StageConfiner : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
+            Debug.Log($"Enter Stage Confiner: {this.name}");
             if (_cinemachineBrain == null || _cinemachineBrain.ActiveVirtualCamera == null || _compositeCollider == null) return;
 
             if (_cinemachineBrain.ActiveVirtualCamera is CinemachineVirtualCamera vcam)
