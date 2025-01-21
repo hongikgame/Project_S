@@ -8,4 +8,6 @@ public interface IBreath
     public float MaxOxygen { get; }
     public bool CanSpendOxygen { get; }
     public float SpendOxygenInSecond { get; }
+
+    public abstract void NoOxygen();
 }

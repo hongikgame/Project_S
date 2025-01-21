@@ -85,7 +85,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
 
             if (_oxygen <= 0)
             {
-                Die();
+                NoOxygen();
             }
         }
     }
@@ -273,6 +273,13 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
         //가해자, 사망원인 처리
     }
 
+    #endregion
+
+    #region IBreath
+    public virtual void NoOxygen()
+    {
+
+    }
     #endregion
 
     private void UpdateRigidbodyVelocity()

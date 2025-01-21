@@ -39,6 +39,11 @@ public class PlayerCharacter : CharacterBase
         Input = context.ReadValue<Vector2>();
     }
 
+    public override void NoOxygen()
+    {
+        
+    }
+
     public override void Die(ICharacter perp = null)
     {
         _oxygen = _maxOxygen;
