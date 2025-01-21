@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CameraOrthiSizeChanger : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     private CinemachineVirtualCamera _virtualCamera;
     public float targetSize = 4f; // 目标的正交投影大小 (목표의 Ortho Size 크기)
