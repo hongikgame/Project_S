@@ -47,7 +47,7 @@ public class PlayerCharacter : CharacterBase
 
     public override void NoOxygen()
     {
-        GetDamage(null, 2);
+        GetDamage(null, 5 * Time.fixedTime);
     }
 
     public override void Die(ICharacter perp = null)
