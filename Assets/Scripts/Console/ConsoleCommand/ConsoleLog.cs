@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConsoleLog : MonoBehaviour
+[CreateAssetMenu(fileName = "ConsoleLog", menuName = "Console/Log")]
+public class ConsoleLog : ConsoleCommand
 {
-    // Start is called before the first frame update
-    void Start()
+    public override bool Process(string[] args)
     {
-        
+        string text = string.Join("", args);
+
+        Debug.Log(text);
+
+        return true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

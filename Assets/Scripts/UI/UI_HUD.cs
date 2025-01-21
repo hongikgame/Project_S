@@ -39,6 +39,7 @@ public class UI_HUD : SingletonMonobehavior<UI_HUD>
         _healthIndicator.color = new Color(1, 1, 1, alpha);
     }
 
+    #region Fade
     public void FadeIn(TransitionType type, Action func = null)
     {
         _transitionAnimation.DoFadeIn(type, func);
@@ -53,6 +54,6 @@ public class UI_HUD : SingletonMonobehavior<UI_HUD>
     {
         _transitionAnimation.DoFadeOutAndIn(type, wait, func);
     }
-
+    #endregion
 
 }

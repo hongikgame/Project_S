@@ -1,10 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class UI_Debug : SingletonMonobehavior<UI_Debug>
 {
+    [SerializeField] private string _prefix = string.Empty;
+    [SerializeField] private ConsoleCommand[] _commands = new ConsoleCommand[0];
+
+    [Header("UI")]
+    [SerializeField] private GameObject _debugCanvas;
+    [SerializeField] private GameObject _consoleCanvas;
+    [SerializeField] private TMP_InputField _consoleInputField;
+
+    private static Console _console;
+
+    private Console Console
+    {
+        get
+        {
+            if (_console == null) _console = new Console(_prefix, _commands);
+            return _console;
+        }
+    }
+
     public CharacterBase TargetCharacter;
 
     public TMP_Text TargetCharacterText;
@@ -18,20 +40,39 @@ public class UI_Debug : SingletonMonobehavior<UI_Debug>
     public TMP_Text TargetCharacterDash;
     public TMP_Text TargetCharacterAttack;
 
-    public TMP_Text InputManagerAttack;
-    public TMP_Text InputManagerDash;
-
-    void Start()
+    #region Monobehaviour
+    protected override void Awake()
     {
-        
+        base.Awake();
+        _consoleInputField.onEndEdit.AddListener(ProcessCommand);
     }
 
-    void Update()
+    private void OnEnable()
     {
-        UpdateCharacter();
+        InputManager.RegisterCommand(ConsoleToggle);
     }
 
-    void UpdateCharacter()
+    private void OnDisable()
+    {
+        InputManager.DeregisterCommand(ConsoleToggle);
+    }
+    #endregion
+
+    public void DebugToggle()
+    {
+        if(_debugCanvas.activeSelf)
+        {
+            _debugCanvas.SetActive(false);
+            StopAllCoroutines();
+        }
+        else
+        {
+            _debugCanvas.SetActive(true);
+            StartCoroutine(DebugCoroutine());
+        }
+    }
+
+    private void UpdateCharacter()
     {
         TargetCharacterText.text = "Character Object Name: " + TargetCharacter?.name;
         TargetCharacterInputMoveText.text = "Input: " + TargetCharacter?.Input.ToString();
@@ -50,9 +91,32 @@ public class UI_Debug : SingletonMonobehavior<UI_Debug>
         TargetCharacterAttack.text = "AttackDurationRemain: " + TargetCharacter.AttackCooldownRemain + " CanDash: " + TargetCharacter.CanAttack.ToString();
     }
 
-    void UpdateInputManager()
+    public void ConsoleToggle(InputAction.CallbackContext context)
     {
-        InputManagerAttack.text = "InputManager - Attack: " + InputManager.AttackKeyDown.ToString();
-        InputManagerDash.text = "InputManager - Dash: " + InputManager.DashKeyDown.ToString();
+        if (!context.action.triggered) return;
+
+        if (_consoleCanvas.activeSelf)
+        {
+            InputManager.SetPlayerInputActivate(true);
+            _consoleCanvas.SetActive(false);
+        }
+        else
+        {
+            InputManager.SetPlayerInputActivate(false);
+            _consoleCanvas.SetActive(true);
+            _consoleInputField.ActivateInputField();
+        }
+    }
+
+    public void ProcessCommand(string input)
+    {
+        Console.ProcessCommand(input);
+        _consoleInputField.text = string.Empty;
+    }
+
+    private IEnumerator DebugCoroutine()
+    {
+        UpdateCharacter();
+        yield return null;
     }
 }

@@ -15,7 +15,6 @@ public class ConsoleBehaviour : SingletonMonobehavior<ConsoleBehaviour>
     [SerializeField] private TMP_InputField _InputField;
 
     private static Console _console;
-    private float _tempTimeScale = 1;
 
     private Console Console
     {
@@ -26,9 +25,20 @@ public class ConsoleBehaviour : SingletonMonobehavior<ConsoleBehaviour>
         }
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        _InputField.onEndEdit.AddListener(ProcessCommand);
+    }
+
     private void OnEnable()
     {
         InputManager.RegisterCommand(Toggle);
+    }
+
+    private void OnDisable()
+    {
+        InputManager.DeregisterCommand(Toggle);
     }
 
     public void Toggle(InputAction.CallbackContext context)
@@ -37,13 +47,12 @@ public class ConsoleBehaviour : SingletonMonobehavior<ConsoleBehaviour>
 
         if(_canvas.activeSelf)
         {
-            Time.timeScale = _tempTimeScale;
+            InputManager.SetPlayerInputActivate(true);
             _canvas.SetActive(false);
         }
         else
         {
-            _tempTimeScale = Time.timeScale;
-            Time.timeScale = 0;
+            InputManager.SetPlayerInputActivate(false);
             _canvas.SetActive(true);
             _InputField.ActivateInputField();
         }

@@ -73,7 +73,7 @@ public static class InputManager
         _inputActions.UI.Command.performed += action;
     }
 
-    public static void DeregesterCommand(Action<InputAction.CallbackContext> action)
+    public static void DeregisterCommand(Action<InputAction.CallbackContext> action)
     {
         _inputActions.UI.Command.performed -= action;
     }
