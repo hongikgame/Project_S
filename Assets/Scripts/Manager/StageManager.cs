@@ -5,6 +5,9 @@ using UnityEngine;
 public static class StageManager
 {
     private static Stage _currentStageConfiner;
+    private static List<Stage> _stageList = new List<Stage>();
+    private static List<StageChanger> _changerList = new List<StageChanger>();
+
 
     public static void SetStage(Stage stage)
     {
@@ -21,4 +24,6 @@ public static class StageManager
         CharacterManager.MoveCharacterTo("player", _currentStageConfiner.GetSpawnPoint());
         InputManager.SetPlayerInputActivate(true);
     }
+
+
 }

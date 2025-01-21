@@ -199,7 +199,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
         DeregisterNPC();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         //죽었으면 리턴
         //if (_health == 0) return;
@@ -251,7 +251,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
     #endregion
 
     #region IHealth
-    public void GetDamage(ICharacter perp, float amount)
+    public virtual void GetDamage(ICharacter perp, float amount)
     {
         if(!_imuttable && !IsTemporaryImuttable)
         {

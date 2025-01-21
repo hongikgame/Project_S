@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,6 +35,11 @@ public class PlayerCharacter : CharacterBase
         InputManager.DeregisterPlayerMove(OnMove);
     }
 
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         Input = context.ReadValue<Vector2>();
@@ -41,7 +47,7 @@ public class PlayerCharacter : CharacterBase
 
     public override void NoOxygen()
     {
-        
+        GetDamage(null, 2);
     }
 
     public override void Die(ICharacter perp = null)
@@ -68,5 +74,11 @@ public class PlayerCharacter : CharacterBase
     {
         base.Dash();
         _drillDashSkill.StartAttack(this, _dashDuration);
+    }
+
+    public override void GetDamage(ICharacter perp, float amount)
+    {
+        base.GetDamage(perp, amount);
+        EventHandler.CallPlayerGetDamage(_health, _maxHealth);
     }
 }
