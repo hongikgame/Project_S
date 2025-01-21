@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
 
     private float initialSize; // 初始的正交投影大小 (본래의 Camera 의 Ortho Size)
     private float processTime; // 记录过渡过程中经过的时间 (과도중의 겪은시간)
-    public bool isTransition = false; 
+    public bool isTransition = false;  
     public bool isReturn = false;
 
     void Start()
