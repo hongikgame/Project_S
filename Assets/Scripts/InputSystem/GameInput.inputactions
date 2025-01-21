@@ -244,7 +244,7 @@
             "id": "a1b7f7c6-5883-4551-8885-14d05364e931",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Command",
                     "type": "Button",
                     "id": "53b5929f-15de-4713-a166-72062bd36f1e",
                     "expectedControlType": "Button",
@@ -257,11 +257,11 @@
                 {
                     "name": "",
                     "id": "fd0480a2-1478-4885-85a7-c529317f15ff",
-                    "path": "",
+                    "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Command",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

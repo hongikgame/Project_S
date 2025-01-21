@@ -66,4 +66,15 @@ public static class InputManager
         _inputActions.Player.Move.performed -= action;
         _inputActions.Player.Move.canceled -= action;
     }
+
+    public static void RegisterCommand(Action<InputAction.CallbackContext> action)
+    {
+        _inputActions.UI.Command.performed -= action;
+        _inputActions.UI.Command.performed += action;
+    }
+
+    public static void DeregesterCommand(Action<InputAction.CallbackContext> action)
+    {
+        _inputActions.UI.Command.performed -= action;
+    }
 }
