@@ -30,7 +30,7 @@ public class StageChanger : MonoBehaviour
 
             if (cinemachineBrain.ActiveVirtualCamera is CinemachineVirtualCamera vcam)
             {
-                CinemachineConfiner2D confiner = vcam.GetComponent<CinemachineConfiner2D>();
+                CinemachineConfiner confiner = vcam.GetComponent<CinemachineConfiner>();
 
                 if (confiner != null)
                 {
