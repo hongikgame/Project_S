@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class SwimState : StateBase
 {
     private float _gravityScale;
+    private int _animInputXHash;
 
-    public SwimState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public SwimState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
+        _animationHash = Animator.StringToHash("Swim");
     }
 
     public override void Start()
@@ -22,7 +25,8 @@ public class SwimState : StateBase
     {
         base.FixedUpdate();
 
-        Vector2 velocity = new Vector2(_ownerCharacter.Input.x * 5.0f, _ownerCharacter.Input.y * 5.0f);
+        Vector2 normalizedInput = _ownerCharacter.Input.normalized;
+        Vector2 velocity = new Vector2(normalizedInput.x * 5.0f, normalizedInput.y * 5.0f);
         if(_ownerCharacter.IsInfluenceByFlowWater && _ownerCharacter.FlowWater != null)
         {
             velocity += _ownerCharacter.FlowWater.FlowDirection;

@@ -77,10 +77,10 @@ public class TransitionAnimation : MonoBehaviour
         }
     }
 
-    public void DoFadeOutAndIn(TransitionType type, float wait, Action func)
+    public void DoFadeOutAndIn(TransitionType type, float wait, Action outFunc, Action inFunc)
     {
         StopAllCoroutines();
-        StartCoroutine(FadeOutAndInCoroutine(type, wait, func));
+        StartCoroutine(FadeOutAndInCoroutine(type, wait, outFunc, inFunc));
     }
 
     private void Reset()
@@ -91,13 +91,13 @@ public class TransitionAnimation : MonoBehaviour
         _dieTransitionArray[1].gameObject.SetActive(false);
     }
 
-    private IEnumerator FadeOutAndInCoroutine(TransitionType type, float wait, Action func = null)
+    private IEnumerator FadeOutAndInCoroutine(TransitionType type, float wait, Action outFunc, Action inFunc)
     {
-        DoFadeOut(type);
+        DoFadeOut(type, outFunc);
 
         yield return new WaitForSeconds(wait + _trainsitionTimer);
 
-        DoFadeIn(type, func);
+        DoFadeIn(type, inFunc);
     }
 }
 

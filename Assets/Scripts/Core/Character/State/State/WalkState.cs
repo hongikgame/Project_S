@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WalkState : StateBase
 {
-    public WalkState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public WalkState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 

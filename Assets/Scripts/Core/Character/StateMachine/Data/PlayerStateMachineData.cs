@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerStateMachineData : StateMachineData
 {
-    public PlayerStateMachineData(CharacterBase owner, int stage) : base(owner, stage)
+    public PlayerStateMachineData(PlayerCharacterBase owner, int stage) : base(owner, stage)
     {
         
     }
 
-    protected override void GenerateState(CharacterBase owner, int stage)
+    protected override void GenerateState(PlayerCharacterBase owner, int stage)
     {
         base.GenerateState(owner, stage);
         //_stateList.Add(new IdleState(owner));
@@ -21,7 +21,7 @@ public class PlayerStateMachineData : StateMachineData
         _stateList.Add(new AirState(owner));
     }
 
-    protected override void GenerateLink(CharacterBase owner, int stage)
+    protected override void GenerateLink(PlayerCharacterBase owner, int stage)
     {
         base.GenerateLink(owner, stage);
 

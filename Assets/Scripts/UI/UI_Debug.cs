@@ -27,7 +27,7 @@ public class UI_Debug : SingletonMonobehavior<UI_Debug>
         }
     }
 
-    public CharacterBase TargetCharacter;
+    public PlayerCharacterBase TargetCharacter;
 
     public TMP_Text TargetCharacterText;
     public TMP_Text TargetCharacterInputMoveText;

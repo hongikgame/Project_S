@@ -5,7 +5,7 @@ using UnityEngine;
 public class DashState : StateBase
 {
     private Vector2 _direction;
-    public DashState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public DashState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 

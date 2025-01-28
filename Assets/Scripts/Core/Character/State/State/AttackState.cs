@@ -7,7 +7,7 @@ public class AttackState : StateBase
 {
     private float _gravityScale = 0f;
     private Vector2 _velocity;
-    public AttackState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public AttackState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 

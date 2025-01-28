@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AirState : StateBase
 {
-    public AirState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public AirState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 

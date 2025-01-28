@@ -5,15 +5,27 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    private Transform _spawnPoint;
+    [SerializeField] private int _index;
+    [SerializeField] private GameObject _spawnPoint;
+    [SerializeField] private CompositeCollider2D _compositeCollider2D;
+    [SerializeField] private StageChanger _stageChanger;
+    [SerializeField] private Sprite _backgroundSprite;
+
+    public int Index { get => _index; }
+    public CompositeCollider2D CameraConfiner2D { get => _compositeCollider2D; }
 
     private void Awake()
     {
-        _spawnPoint = transform.GetChild(0);
+        if(_stageChanger) _stageChanger.Index = _index;
+    }
+
+    private void Start()
+    {
+        StageManager.RegisterStage(this);
     }
 
     public Vector3 GetSpawnPoint()
     {
-        return _spawnPoint.position;
+        return _spawnPoint.transform.position;
     }
 }

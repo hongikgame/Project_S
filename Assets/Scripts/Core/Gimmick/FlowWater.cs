@@ -10,14 +10,14 @@ public class FlowWater : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<CharacterBase>(out CharacterBase characterBase))
+        if(collision.TryGetComponent<PlayerCharacterBase>(out PlayerCharacterBase characterBase))
         {
             characterBase.FlowWater = this;
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<CharacterBase>(out CharacterBase characterBase))
+        if(collision.TryGetComponent<PlayerCharacterBase>(out PlayerCharacterBase characterBase))
         {
             if(characterBase.FlowWater == this) 
             { 

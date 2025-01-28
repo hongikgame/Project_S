@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCharacter : CharacterBase
+public class PlayerCharacter : PlayerCharacterBase
 {
     [Header("Attack")]
     [SerializeField] private SkillBase _fireSwordSkill;
@@ -47,7 +47,7 @@ public class PlayerCharacter : CharacterBase
 
     public override void NoOxygen()
     {
-        GetDamage(null, 5 * Time.fixedTime);
+        
     }
 
     public override void Die(ICharacter perp = null)

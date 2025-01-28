@@ -6,7 +6,7 @@ public class JumpState : StateBase
 {
     public float JumpForce = 10f;
 
-    public JumpState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public JumpState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 

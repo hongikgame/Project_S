@@ -50,9 +50,9 @@ public class UI_HUD : SingletonMonobehavior<UI_HUD>
         _transitionAnimation.DoFadeOut(type, func);
     }
 
-    public void FadeOutAndIn(TransitionType type, float wait, Action func = null)
+    public void FadeOutAndIn(TransitionType type, float wait, Action outFunc = null, Action inFunc = null)
     {
-        _transitionAnimation.DoFadeOutAndIn(type, wait, func);
+        _transitionAnimation.DoFadeOutAndIn(type, wait, outFunc, inFunc);
     }
     #endregion
 

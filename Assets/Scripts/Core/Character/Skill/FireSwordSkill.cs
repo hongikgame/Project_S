@@ -40,7 +40,7 @@ public class FireSwordSkill : SkillBase
         }
     }
 
-    public override void StartAttack(CharacterBase owner, float time)
+    public override void StartAttack(PlayerCharacterBase owner, float time)
     {
         base.StartAttack(owner, time);
 

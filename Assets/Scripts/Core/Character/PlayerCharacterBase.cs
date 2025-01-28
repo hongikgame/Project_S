@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreath
+public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, IBreath
 {
     [Header("ICharacter")]
     [SerializeField] protected string _name = "CharacterBase";
@@ -180,6 +180,7 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter, IHealth, IBreat
     {
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+        _animator = GetComponent<Animator>();
 
         _initBound = _collider.bounds;
 

@@ -5,49 +5,19 @@ using UnityEngine;
 
 public class StageChanger : MonoBehaviour
 {
-    [SerializeField] private Collider2D _collider;
-
-    [SerializeField] private CompositeCollider2D _prevStageConfiner;
-    [SerializeField] private CompositeCollider2D _nextStageConfiner;
-
-    [SerializeField] private Stage _prevStage;
-    [SerializeField] private Stage _nextStage;
-    [SerializeField] private StageChanger _prevStageChanger;
-    [SerializeField] private StageChanger _nextStageChanger;
+    public Collider2D Collider { get; private set; }
+    public int Index { get; set; }
 
     private void Awake()
     {
-        _collider = GetComponent<Collider2D>();
-        SetTrigger(true);
+        Collider = GetComponent<Collider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            CinemachineBrain cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
-            if (cinemachineBrain == null || cinemachineBrain.ActiveVirtualCamera == null || _nextStageConfiner == null) return;
-
-            if (cinemachineBrain.ActiveVirtualCamera is CinemachineVirtualCamera vcam)
-            {
-                CinemachineConfiner2D confiner = vcam.GetComponent<CinemachineConfiner2D>();
-
-                if (confiner != null)
-                {
-                    confiner.m_BoundingShape2D = _nextStageConfiner;
-
-                    StageManager.SetStage(_nextStage);
-
-                    SetTrigger(false);
-                    _prevStageChanger?.SetTrigger(false);
-                    _nextStageChanger?.SetTrigger(true);
-                }
-            }
+            StageManager.SetStage(Index + 1);
         }
-    }
-
-    public void SetTrigger(bool b)
-    {
-        _collider.isTrigger = b;
     }
 }
