@@ -206,12 +206,12 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
 
     protected virtual void FixedUpdate()
     {
-        //Á×¾úÀ¸¸é ¸®ÅÏ
+        //ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         //if (_health == 0) return;
 
-        //¾÷µ¥ÀÌÆ®
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         UpdateDetector();
-        _velocity = _rb.velocity;
+        _velocity = _rb.linearVelocity;
 
         _stateMachine.FixedUpdate(this);
         UpdateOxygen();
@@ -275,7 +275,7 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
 
     public virtual void Die(ICharacter perp = null)
     {
-        //°¡ÇØÀÚ, »ç¸Á¿øÀÎ Ã³¸®
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
     }
 
     #endregion
@@ -296,7 +296,7 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
     {
         if (_rb == null) return;
         
-        _rb.velocity = _velocity;
+        _rb.linearVelocity = _velocity;
     }
 
     private void UpdateZRotation()

@@ -42,6 +42,6 @@ public class ProjectileBase : MonoBehaviour
             _ownerHealth = ownerHealth;
         }
 
-        _rb.velocity = direction * _speed;
+        _rb.linearVelocity = direction * _speed;
     }
 }
