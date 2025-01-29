@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NoneState : StateBase
 {
-    public NoneState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    public NoneState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 }

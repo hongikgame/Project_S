@@ -5,12 +5,12 @@ using UnityEngine;
 
 public abstract class SkillBase : MonoBehaviour
 {
-    protected CharacterBase _ownerCharacter = null;
+    protected PlayerCharacterBase _ownerCharacter = null;
     protected IHealth _ownerHealth = null;
     protected float _time;
     protected Coroutine _attackCoroutine;
 
-    public virtual void StartAttack(CharacterBase owner, float time)
+    public virtual void StartAttack(PlayerCharacterBase owner, float time)
     {
         if (_ownerCharacter == null)
         {

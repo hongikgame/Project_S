@@ -9,7 +9,7 @@ public abstract class StateLink
     public abstract StateBase OldState { get; }
     public abstract StateBase NewState { get; }
 
-    public abstract bool CheckCondition(CharacterBase character);
+    public abstract bool CheckCondition(PlayerCharacterBase character);
     public bool CheckValid()
     {
         return (OldState != null && NewState != null && OldState != NewState);

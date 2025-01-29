@@ -4,16 +4,17 @@ using UnityEngine;
 
 public abstract class StateBase
 {
-    protected CharacterBase _ownerCharacter;
+    protected PlayerCharacterBase _ownerCharacter;
+    protected int _animationHash;
 
-    public StateBase(CharacterBase ownerCharacter)
+    public StateBase(PlayerCharacterBase ownerCharacter)
     {
         _ownerCharacter = ownerCharacter;
     }
 
     public virtual void Start()
     {
-
+        SetAnimation(true);
     }
 
     public virtual void FixedUpdate()
@@ -28,7 +29,11 @@ public abstract class StateBase
 
     public virtual void Finish()
     {
-
+        SetAnimation(false);
     }
 
+    private void SetAnimation(bool active)
+    {
+        _ownerCharacter.Animator.SetBool(_animationHash, active);
+    }
 }

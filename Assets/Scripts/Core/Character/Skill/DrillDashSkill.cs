@@ -32,7 +32,7 @@ public class DrillDashSkill : SkillBase
         }
     }
 
-    public override void StartAttack(CharacterBase owner, float time)
+    public override void StartAttack(PlayerCharacterBase owner, float time)
     {
         base.StartAttack(owner, time);
 
@@ -42,8 +42,6 @@ public class DrillDashSkill : SkillBase
         {
             _ownerHealth.IsTemporaryImuttable = true;
         }
-        
-        if (GameManager.Instance.Debug) _spriteRenderer.color = new Color(1, 0, 0, 1);
     }
 
     protected override void FinishAttack()
@@ -54,8 +52,6 @@ public class DrillDashSkill : SkillBase
         {
             _ownerHealth.IsTemporaryImuttable = false;
         }
-
-        if (GameManager.Instance.Debug) _spriteRenderer.color = new Color(1, 0, 0, 0);
     }
 
     protected override IEnumerator AttackCoroutine()

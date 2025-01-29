@@ -6,8 +6,8 @@ using UnityEngine;
 public class AttackState : StateBase
 {
     private float _gravityScale = 0f;
-
-    public AttackState(CharacterBase ownerCharacter) : base(ownerCharacter)
+    private Vector2 _velocity;
+    public AttackState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
     }
 
@@ -18,6 +18,17 @@ public class AttackState : StateBase
 
         _gravityScale = _ownerCharacter.Rigidbody2D.gravityScale;
         _ownerCharacter.Rigidbody2D.gravityScale = 0;
+
+        _velocity = _ownerCharacter.Velocity;
+        _ownerCharacter.Velocity = Vector2.zero;
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+
+        _ownerCharacter.Velocity = Vector2.zero;
     }
 
     public override void Update()
@@ -33,5 +44,6 @@ public class AttackState : StateBase
 
         _ownerCharacter.AttackCooldownRemain = 99999f;
         _ownerCharacter.Rigidbody2D.gravityScale = _gravityScale;
+        _ownerCharacter.Velocity = _velocity;
     }
 }

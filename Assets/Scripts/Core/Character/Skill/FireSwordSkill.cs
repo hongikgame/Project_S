@@ -40,7 +40,7 @@ public class FireSwordSkill : SkillBase
         }
     }
 
-    public override void StartAttack(CharacterBase owner, float time)
+    public override void StartAttack(PlayerCharacterBase owner, float time)
     {
         base.StartAttack(owner, time);
 
@@ -55,9 +55,6 @@ public class FireSwordSkill : SkillBase
         float rotationAngle = Mathf.Rad2Deg * angle - 90f;
         transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
 
-        if(GameManager.Instance.Debug) _spriteRenderer.color = new Color(1, 1, 1, 1);
-        else _spriteRenderer.color = new Color(1, 1, 1, 0);
-
         StartCoroutine(AttackCoroutine());
     }
 
@@ -65,14 +62,12 @@ public class FireSwordSkill : SkillBase
     {
         _collider.enabled = true;
         _isParrying = true;
-        if(GameManager.Instance.Debug) _spriteRenderer.color = new Color(1, 0, 0, 1);
         yield return new WaitForSeconds(ParryingDuration);
 
         _isParrying = false;
         yield return new WaitForSeconds(AttackDuration - ParryingDuration);
 
         _collider.enabled = false;
-        _spriteRenderer.color = new Color(1, 1, 1, 0);
     }
 
 

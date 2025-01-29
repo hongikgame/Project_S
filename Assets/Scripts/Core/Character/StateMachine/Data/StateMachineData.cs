@@ -10,18 +10,18 @@ public abstract class StateMachineData
     public List<StateBase> StateBase { get => _stateList; }
     public List<StateLink> StateLink { get => _stateLinkList; }
 
-    public StateMachineData(CharacterBase owner, int stage)
+    public StateMachineData(PlayerCharacterBase owner, int stage)
     {
         GenerateState(owner, stage);
         GenerateLink(owner, stage);
     }
 
-    protected virtual void GenerateState(CharacterBase owner, int stage)
+    protected virtual void GenerateState(PlayerCharacterBase owner, int stage)
     {
         _stateList.Clear();
     }
 
-    protected virtual void GenerateLink(CharacterBase owner, int stage)
+    protected virtual void GenerateLink(PlayerCharacterBase owner, int stage)
     {
         _stateLinkList.Clear();
     }
