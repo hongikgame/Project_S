@@ -42,8 +42,6 @@ public class DrillDashSkill : SkillBase
         {
             _ownerHealth.IsTemporaryImuttable = true;
         }
-        
-        if (GameManager.Instance.Debug) _spriteRenderer.color = new Color(1, 0, 0, 1);
     }
 
     protected override void FinishAttack()
@@ -54,8 +52,6 @@ public class DrillDashSkill : SkillBase
         {
             _ownerHealth.IsTemporaryImuttable = false;
         }
-
-        if (GameManager.Instance.Debug) _spriteRenderer.color = new Color(1, 0, 0, 0);
     }
 
     protected override IEnumerator AttackCoroutine()

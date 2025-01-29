@@ -85,7 +85,11 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
 
             if (_oxygen <= 0)
             {
-                NoOxygen();
+                OnOxygenDepleted();
+            }
+            else
+            {
+                OnOxygenRestored();
             }
         }
     }
@@ -277,7 +281,12 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
     #endregion
 
     #region IBreath
-    public virtual void NoOxygen()
+    public virtual void OnOxygenDepleted()
+    {
+
+    }
+
+    public virtual void OnOxygenRestored()
     {
 
     }

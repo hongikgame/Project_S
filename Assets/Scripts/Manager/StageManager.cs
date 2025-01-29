@@ -32,7 +32,7 @@ public static class StageManager
     {
         InputManager.SetPlayerInputActivate(false);
         _nextStageIndex = index;
-        UI_HUD.Instance.FadeOutAndIn(TransitionType.Stage, 0.25f, OnFadeOutFinish, OnFadeInFinish);
+        UI_HUD.Instance.FadeOutAndIn(TransitionType.Stage, 0.75f, OnFadeOutFinish, OnFadeInFinish);
     }
 
     private static void SetCameraConfiner(int index)

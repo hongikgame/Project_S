@@ -9,5 +9,6 @@ public interface IBreath
     public bool CanSpendOxygen { get; }
     public float SpendOxygenInSecond { get; }
 
-    public abstract void NoOxygen();
+    public abstract void OnOxygenDepleted();
+    public abstract void OnOxygenRestored();
 }

@@ -22,6 +22,10 @@ public class Stage : MonoBehaviour
     private void Start()
     {
         StageManager.RegisterStage(this);
+        if (Index == 0)
+        {
+            StageManager.SetStage(0);
+        }
     }
 
     public Vector3 GetSpawnPoint()

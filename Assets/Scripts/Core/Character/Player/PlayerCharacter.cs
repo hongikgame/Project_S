@@ -45,9 +45,14 @@ public class PlayerCharacter : PlayerCharacterBase
         Input = context.ReadValue<Vector2>();
     }
 
-    public override void NoOxygen()
+    public override void OnOxygenDepleted()
     {
-        
+        GameManager.Instance.Hallucination = true;
+    }
+
+    public override void OnOxygenRestored()
+    {
+        GameManager.Instance.Hallucination = false;
     }
 
     public override void Die(ICharacter perp = null)
