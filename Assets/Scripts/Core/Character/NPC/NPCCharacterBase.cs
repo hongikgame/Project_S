@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,7 +17,7 @@ public class NPCCharacterBase : MonoBehaviour, ICharacter, IHealth
 
     [Header("Reference")]
     [SerializeField] private NavMeshAgent _agent;
-    //[SerializeField] private BehaviorGraphAgent _behaviourAgent;
+    [SerializeField] private BehaviorGraphAgent _behaviourAgent;
 
     //Getter or Setter
     #region ICharacter
@@ -32,15 +33,38 @@ public class NPCCharacterBase : MonoBehaviour, ICharacter, IHealth
 
 
     //Func
+    #region Monobehaviour
+    private void Awake()
+    {
+        _behaviourAgent = GetComponent<BehaviorGraphAgent>();
+    }
+
+    private void Start()
+    {
+        _behaviourAgent.SetVariableValue("Target", CharacterManager.GetCharacter("Player").GameObject);
+    }
+
+    protected virtual void OnEnable()
+    {
+        RegisterNPC();
+    }
+
+    protected virtual void OnDisable()
+    {
+        DeregisterNPC();
+    }
+
+    #endregion
+
     #region ICharacter
     public void RegisterNPC()
     {
-        throw new System.NotImplementedException();
+        CharacterManager.RegisterCharacter(gameObject, this);
     }
 
     public void DeregisterNPC()
     {
-        throw new System.NotImplementedException();
+        CharacterManager.DeregisterCharacter(gameObject, this);
     }
     #endregion
 
