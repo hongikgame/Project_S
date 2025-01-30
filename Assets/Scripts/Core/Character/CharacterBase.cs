@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class NPCCharacterBase : MonoBehaviour, ICharacter, IHealth
+public class CharacterBase : MonoBehaviour, ICharacter, IHealth
 {
     [Header("ICharacter")]
     [SerializeField] protected string _name = "NPCCharacterBase";
@@ -14,10 +11,6 @@ public class NPCCharacterBase : MonoBehaviour, ICharacter, IHealth
     [SerializeField] protected float _maxHealth = 100.0f;
     [SerializeField] protected bool _imuttable = false;
     [SerializeField] protected bool _temporaryImuttable = false;
-
-    [Header("Reference")]
-    [SerializeField] private NavMeshAgent _agent;
-    [SerializeField] private BehaviorGraphAgent _behaviourAgent;
 
     //Getter or Setter
     #region ICharacter
@@ -31,18 +24,8 @@ public class NPCCharacterBase : MonoBehaviour, ICharacter, IHealth
     public bool IsTemporaryImuttable { get => _temporaryImuttable; set => _temporaryImuttable = value; }
     #endregion
 
-
     //Func
     #region Monobehaviour
-    private void Awake()
-    {
-        _behaviourAgent = GetComponent<BehaviorGraphAgent>();
-    }
-
-    private void Start()
-    {
-        _behaviourAgent.SetVariableValue("Target", CharacterManager.GetCharacter("Player").GameObject);
-    }
 
     protected virtual void OnEnable()
     {
@@ -69,19 +52,19 @@ public class NPCCharacterBase : MonoBehaviour, ICharacter, IHealth
     #endregion
 
     #region IHealth
-    public void Die(ICharacter perp)
+    public virtual void Die(ICharacter perp)
     {
-        throw new System.NotImplementedException();
+        
     }
 
-    public void GetDamage(ICharacter character, float amount)
+    public virtual void GetDamage(ICharacter character, float amount)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void RecoverFullHealth()
     {
-        throw new System.NotImplementedException();
+        
     }
     #endregion
 }

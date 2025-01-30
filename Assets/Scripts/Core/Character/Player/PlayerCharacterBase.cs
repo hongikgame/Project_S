@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, IBreath
+public abstract class PlayerCharacterBase : CharacterBase, IBreath
 {
-    [Header("ICharacter")]
-    [SerializeField] protected string _name = "CharacterBase";
-
-    [Header("Health")]
-    [SerializeField] protected float _health = 100.0f;
-    [SerializeField] protected float _maxHealth = 100.0f;
-    [SerializeField] protected bool _imuttable = false;
-    [SerializeField] protected bool _temporaryImuttable = false;
+    [Header("Reference")]
+    [SerializeField] protected Rigidbody2D _rb;
+    [SerializeField] protected Collider2D _collider;
+    [SerializeField] protected SpriteRenderer _spriteRenderer;
+    [SerializeField] protected Animator _animator;
+    [SerializeField] protected Transform _cameraTarget;
 
     [Header("Breath")]
     [SerializeField] protected bool _canSpendOxygen = true;
@@ -51,26 +49,7 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
     [SerializeField] protected float _attackDuration = 0.35f;
     [SerializeField] private float _attackDurationRemain = 0f;
 
-    [Header("Reference")]
-    [SerializeField] protected Rigidbody2D _rb;
-    [SerializeField] protected Collider2D _collider;
-    [SerializeField] protected SpriteRenderer _spriteRenderer;
-    [SerializeField] protected Animator _animator;
-    [SerializeField] protected Transform _cameraTarget;
-
     //Getter or Setter
-    #region ICharacter
-
-    public string Name { get { return _name; } }
-
-    #endregion
-
-    #region IHealth
-    public float Health { get => _health; }
-    public float MaxHealth { get => _maxHealth; }
-    public bool IsImuttable { get => _imuttable; }
-    public bool IsTemporaryImuttable { get => _temporaryImuttable; set => _temporaryImuttable = value; }
-    #endregion
 
     #region IBreath
     public bool CanSpendOxygen { get => _canSpendOxygen; }
@@ -194,22 +173,8 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
         _staticData.Bounds = _initBound;
     }
 
-    protected virtual void OnEnable()
-    {
-        RegisterNPC();
-    }
-
-    protected virtual void OnDisable()
-    {
-        DeregisterNPC();
-    }
-
     protected virtual void FixedUpdate()
     {
-        //�׾����� ����
-        //if (_health == 0) return;
-
-        //������Ʈ
         UpdateDetector();
         _velocity = _rb.linearVelocity;
 
@@ -241,46 +206,21 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
     }
     #endregion
 
-    #region ICharacter
-
-    public void RegisterNPC()
-    {
-        CharacterManager.RegisterCharacter(gameObject, this);
-    }
-
-    public void DeregisterNPC()
-    {
-        CharacterManager.DeregisterCharacter(gameObject, this);
-    }
-
-    #endregion
 
     #region IHealth
-    public virtual void GetDamage(ICharacter perp, float amount)
+    public override void Die(ICharacter perp = null)
     {
-        if(!_imuttable && !IsTemporaryImuttable)
-        {
-            _health = Mathf.Clamp(_health - amount, 0f, _maxHealth);
-            if (_health <= 0f)
-            {
-                Die(perp);
-            }
-        }
-    }
-
-    public void RecoverFullHealth()
-    {
-        _health = _maxHealth;
-    }
-
-    public virtual void Die(ICharacter perp = null)
-    {
-        //������, ������� ó��
+        
     }
 
     #endregion
 
     #region IBreath
+    public virtual void RecoverFullOxygen()
+    {
+        Oxygen = MaxOxygen;
+    }
+
     public virtual void OnOxygenDepleted()
     {
 

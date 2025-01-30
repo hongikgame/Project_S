@@ -11,10 +11,10 @@ public static class CharacterManager
 
     }
 
-    public static void RegisterCharacter(GameObject characterObject, ICharacter character)
+    public static void RegisterCharacter(GameObject characterObject, CharacterBase character)
     {
-        ICharacter characterComponent = characterObject.GetComponent<ICharacter>();
-        if (character == null || character != characterComponent) return;
+        CharacterBase characterBase = characterObject.GetComponent<CharacterBase>();
+        if (character == null || character != characterBase) return;
 
 
         CharacterData characterDB = new CharacterData(character, characterObject);
@@ -34,6 +34,7 @@ public static class CharacterManager
 
     public static CharacterData GetCharacter(string name)
     {
+        name = name.ToLower();
         if(_characterDict.TryGetValue(name, out CharacterData character))
         {
             return character;
@@ -43,7 +44,7 @@ public static class CharacterManager
 
     public static void MoveCharacterTo(string name, Vector3 pos)
     {
-        CharacterData data = GetCharacter(name.ToLower());
+        CharacterData data = GetCharacter(name);
         if (data == null) return;
 
         data.GameObject.transform.position = pos;
