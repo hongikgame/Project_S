@@ -3,6 +3,6 @@ using UnityEngine;
 public interface IHallucination
 {
     public void OnHallucinationChanged(bool active);
-    public void OnHallucinationBegin();
-    public void OnHallucinationEnd();
+    public abstract void OnHallucinationBegin();
+    public abstract void OnHallucinationEnd();
 }

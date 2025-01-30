@@ -4,7 +4,7 @@ using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPCBase : CharacterBase, IHallucination
+public abstract class NPCBase : CharacterBase, IHallucination
 {
     [Header("Reference")]
     private NavMeshAgent _agent;
@@ -55,14 +55,13 @@ public class NPCBase : CharacterBase, IHallucination
 
     public virtual void OnHallucinationBegin()
     {
-        
+
     }
 
     public virtual void OnHallucinationEnd()
     {
-        
-    }
 
+    }
     #endregion
 
 
