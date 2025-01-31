@@ -45,6 +45,7 @@ public class StateMachine
     public void Update(PlayerCharacterBase character)
     {
         _currentState?.Update();
+        _currentState?.UpdateAnimation();
     }
 
     public string GetCurrentStateName()

@@ -38,7 +38,7 @@ public class GameManager : SingletonMonobehavior<GameManager>
     {
         if (Time.timeScale != 0)
         {
-            SaveLoadManager.SaveData.TotalPlayTime += TimeSpan.FromSeconds(Time.deltaTime);
+            SaveLoadManager.SaveData.TotalPlayTimeSpan += TimeSpan.FromSeconds(Time.deltaTime);
         }
     }
 

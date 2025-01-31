@@ -58,7 +58,8 @@ public static class SaveLoadManager
         }
 
         //GameSystem
-        _saveData.LastSaveDateTime = DateTime.Now;
+        _saveData.LastSaveDateTime = DateTime.Now.ToString("g");
+        _saveData.TotalPlayTime = _saveData.TotalPlayTimeSpan.ToString();
 
         //Statistics
 
@@ -73,6 +74,9 @@ public static class SaveLoadManager
         {
             string fromJsonData = File.ReadAllText(_gamePath);
             _saveData = JsonUtility.FromJson<SaveData>(fromJsonData);
+
+            //GameSystem
+            _saveData.TotalPlayTimeSpan = TimeSpan.Parse(_saveData.TotalPlayTime);
         }
         else
         {

@@ -8,9 +8,19 @@ public class SwimState : StateBase
     private float _gravityScale;
     private int _animInputXHash;
 
+    protected int _animationHash_SwimUp;
+    protected int _animationHash_SwimUpSide;
+    protected int _animationHash_SwimSide;
+    protected int _animationHash_SwimDownSide;
+    protected int _animationHash_SwimDown;
+
     public SwimState(PlayerCharacterBase ownerCharacter) : base(ownerCharacter)
     {
-        _animationHash = Animator.StringToHash("Swim");
+        _animationHash_SwimUp = Animator.StringToHash("Swim_Up");
+        _animationHash_SwimUpSide = Animator.StringToHash("Swim_UpSide");
+        _animationHash_SwimSide = Animator.StringToHash("Swim_Side");
+        _animationHash_SwimDownSide = Animator.StringToHash("Swim_DownSide");
+        _animationHash_SwimDown = Animator.StringToHash("Swim_Down");
     }
 
     public override void Start()
@@ -40,5 +50,23 @@ public class SwimState : StateBase
         base.Finish();
 
         _ownerCharacter.Rigidbody2D.gravityScale = _gravityScale;
+    }
+
+    public override void UpdateAnimation()
+    {
+        if(_ownerCharacter.Input.y > 0)
+        {
+            if(_ownerCharacter.Input.x == 0) PlayAnimation(_animationHash_SwimUp);
+            else PlayAnimation(_animationHash_SwimUpSide);
+        }
+        else if(_ownerCharacter.Input.y == 0)
+        {
+            PlayAnimation(_animationHash_SwimSide);
+        }
+        else
+        {
+            if (_ownerCharacter.Input.x == 0) PlayAnimation(_animationHash_SwimDown);
+            else PlayAnimation(_animationHash_SwimDownSide);
+        }
     }
 }

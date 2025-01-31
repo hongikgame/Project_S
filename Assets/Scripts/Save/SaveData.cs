@@ -13,8 +13,9 @@ public class SaveData
     public float CurrentPlayerOxygen;
 
     //GameSystem
-    public TimeSpan TotalPlayTime;
-    public DateTime LastSaveDateTime;
+    public TimeSpan TotalPlayTimeSpan;
+    public string TotalPlayTime;
+    public string LastSaveDateTime;
 
     //Statistics
     public int TotalKills;
