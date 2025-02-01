@@ -108,10 +108,10 @@ public class CameraManager : MonoBehaviour
                     endPos = Vector2.down;
                     break;
                 case PanDirection.left:
-                    endPos = Vector2.left;
+                    endPos = Vector2.right;
                     break;
                 case PanDirection.right:
-                    endPos = Vector2.right;
+                    endPos = Vector2.left;
                     break;
                 default: 
                     break;

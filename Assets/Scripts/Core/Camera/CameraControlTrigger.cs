@@ -42,7 +42,7 @@ public class CameraControlTrigger : MonoBehaviour
             {
                 //pan camera
                 CameraManager.instance.PanCameraOnContact(customInspectorObjects.panDistance, customInspectorObjects.panTime,
-                    customInspectorObjects.panDirection, false);
+                    customInspectorObjects.panDirection, true);
             }
         }
     }
@@ -70,9 +70,8 @@ public enum PanDirection
     right,
 }
 
-
-[CustomEditor(typeof(CameraControlTrigger))]
 #if UNITY_EDITOR
+[CustomEditor(typeof(CameraControlTrigger))]
 public class MyScriptEditor : Editor
 {
     CameraControlTrigger cameraControlTrigger;
