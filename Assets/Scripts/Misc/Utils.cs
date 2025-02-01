@@ -17,4 +17,9 @@ public static class Utils
     {
         return Mathf.PI * angle / 180;
     }
+
+    public static float GetAngle(Vector2 vector)
+    {
+        return Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
+    }
 }

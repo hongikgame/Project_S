@@ -45,6 +45,12 @@ public class SwimState : StateBase
         _ownerCharacter.Velocity = velocity;
     }
 
+    public override void Update()
+    {
+        base.Update();
+
+    }
+
     public override void Finish()
     {
         base.Finish();

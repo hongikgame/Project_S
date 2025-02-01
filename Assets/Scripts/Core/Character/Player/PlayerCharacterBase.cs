@@ -33,7 +33,9 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
     [SerializeField] protected float _gravityScale;
     [SerializeField] protected Vector2 _inputMove;
     [SerializeField] protected FlowWater _flowWater;
+    [SerializeField] protected CharacterDirection _prevDirection;
     [SerializeField] protected CharacterDirection _direction;
+    [SerializeField] protected CharacterRotation _rotation;
 
     [Header("Cooldown - Dash")]
     [SerializeField] private int _maxDashCount = 3;
@@ -101,14 +103,17 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
         get => _direction;
         set
         {
+            Vector3 currentRotation = transform.rotation.eulerAngles;
             switch (value)
             {
                 case CharacterDirection.Left:
                     _spriteRenderer.flipX = true;
+                    //gameObject.transform.rotation = Quaternion.Euler(0, 180, currentRotation.z);
                     if (_cameraTarget) _cameraTarget.transform.localPosition = new Vector3(-1f, 0f, 0f);
                     break;
                 case CharacterDirection.Right:
                     _spriteRenderer.flipX = false;
+                    //gameObject.transform.rotation = Quaternion.Euler(0, 0, currentRotation.z);
                     if (_cameraTarget) _cameraTarget.transform.localPosition = new Vector3(1f, 0f, 0f);
                     break;
                 case CharacterDirection.None:
@@ -186,6 +191,7 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
 
     protected virtual void Update()
     {
+        UpdateCharacterRotation();
         _stateMachine.Update(this);
 
         //Attack
@@ -239,23 +245,53 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
         _rb.linearVelocity = _velocity;
     }
 
-    private void UpdateZRotation()
+    private void UpdateCharacterRotation()
     {
         if (_inputMove == Vector2.zero) return;
-        if (_isInfluenceByFlowWater)
+
+        float angle = Utils.GetAngle(_inputMove);
+        if (angle > 90f)
         {
-            float angle = Mathf.Atan2(_inputMove.y, _inputMove.x) * Mathf.Rad2Deg;
-            if (angle > 90)
-            {
-                angle -= 180;
-            }
-            else if (angle < -90)
-            {
-                angle += 180;
-            }
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            angle = -(angle - 180);
         }
-        
+        else if(angle < -90f)
+        {
+            angle = -(angle + 180);
+        }
+
+        CharacterRotation rotaion;
+        if (angle > 75f)
+            rotaion = CharacterRotation.Up;
+        else if (angle >= 15f)
+            rotaion = CharacterRotation.UpSide;
+        else if (angle >= -15f)
+            rotaion = CharacterRotation.Side;
+        else if (angle >= -75f)
+            rotaion = CharacterRotation.DownSide;
+        else
+            rotaion = CharacterRotation.Down;
+
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+        if (_inputMove.x < 0)
+        {
+            targetRotation = Quaternion.Euler(0, 0, -angle);
+        }
+
+        if(_prevDirection != _direction)
+        {
+            transform.rotation = targetRotation;
+        }
+        else if (Mathf.Abs(transform.rotation.y - angle) < 45f)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
+        }
+        else
+        {
+            transform.rotation = targetRotation;
+        }
+
+        _prevDirection = _direction;
+        _rotation = rotaion;
     }
 
     private void UpdateDetector()
@@ -298,4 +334,13 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
 public enum CharacterDirection
 {
     Left, Right, None
+}
+
+public enum CharacterRotation
+{
+    Up,
+    UpSide,
+    Side,
+    DownSide,
+    Down
 }
