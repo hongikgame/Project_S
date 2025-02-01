@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AttackState : StateBase
 {
@@ -22,6 +23,8 @@ public class AttackState : StateBase
 
         _velocity = _ownerCharacter.Velocity;
         _ownerCharacter.Velocity = Vector2.zero;
+
+        _ownerCharacter.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public override void FixedUpdate()

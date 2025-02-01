@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using static UnityEngine.EventSystems.StandaloneInputModule;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class SwimState : StateBase
 {
@@ -74,5 +76,43 @@ public class SwimState : StateBase
             if (_ownerCharacter.Input.x == 0) PlayAnimation(_animationHash_SwimDown);
             else PlayAnimation(_animationHash_SwimDownSide);
         }
+    }
+
+    public override void UpdateRotation()
+    {
+        if (_ownerCharacter.Input == Vector2.zero) return;
+
+        float angle = Utils.GetAngle(_ownerCharacter.Input);
+        if (angle > 90f)
+        {
+            angle = -(angle - 180);
+        }
+        else if (angle < -90f)
+        {
+            angle = -(angle + 180);
+        }
+
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+        if (_ownerCharacter.Input.x < 0)
+        {
+            targetRotation = Quaternion.Euler(0, 0, -angle);
+        }
+
+        if (_ownerCharacter.PrevDirection != _ownerCharacter.Direction)
+        {
+            _ownerCharacter.transform.rotation = targetRotation;
+        }
+        else if (Mathf.Abs(_ownerCharacter.transform.rotation.y - angle) < 30f)
+        {
+            _ownerCharacter.transform.rotation = Quaternion.Slerp(_ownerCharacter.transform.rotation, targetRotation, 5 * Time.deltaTime);
+        }
+        else
+        {
+            _ownerCharacter.transform.rotation = targetRotation;
+        }
+
+        _ownerCharacter.PrevDirection = _ownerCharacter.Direction;
+
+        if (angle == 90 || angle == -90) _ownerCharacter.Direction = CharacterDirection.Right;
     }
 }

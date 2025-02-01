@@ -46,6 +46,7 @@ public class StateMachine
     {
         _currentState?.Update();
         _currentState?.UpdateAnimation();
+        _currentState?.UpdateRotation();
     }
 
     public string GetCurrentStateName()

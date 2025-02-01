@@ -37,6 +37,10 @@ public abstract class StateBase
         
     }
 
+    public virtual void UpdateRotation()
+    {
+    }
+
     protected void PlayAnimation(int hash)
     {
         _ownerCharacter.Animator.Play(hash);

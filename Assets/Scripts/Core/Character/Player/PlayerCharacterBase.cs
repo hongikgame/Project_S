@@ -35,7 +35,6 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
     [SerializeField] protected FlowWater _flowWater;
     [SerializeField] protected CharacterDirection _prevDirection;
     [SerializeField] protected CharacterDirection _direction;
-    [SerializeField] protected CharacterRotation _rotation;
 
     [Header("Cooldown - Dash")]
     [SerializeField] private int _maxDashCount = 3;
@@ -122,6 +121,7 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
             _direction = value;
         }
     }
+    public CharacterDirection PrevDirection { get => _prevDirection; set => _prevDirection = value;}
     #endregion
 
     #region Skill
@@ -186,12 +186,11 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
         _stateMachine.FixedUpdate(this);
         UpdateOxygen();
         UpdateRigidbodyVelocity();
-        //UpdateZRotation();
     }
 
     protected virtual void Update()
     {
-        UpdateCharacterRotation();
+        //UpdateCharacterRotation();
         _stateMachine.Update(this);
 
         //Attack
@@ -259,7 +258,7 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
             angle = -(angle + 180);
         }
 
-        CharacterRotation rotaion;
+        /*CharacterRotation rotaion;
         if (angle > 75f)
             rotaion = CharacterRotation.Up;
         else if (angle >= 15f)
@@ -269,7 +268,7 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
         else if (angle >= -75f)
             rotaion = CharacterRotation.DownSide;
         else
-            rotaion = CharacterRotation.Down;
+            rotaion = CharacterRotation.Down;*/
 
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
         if (_inputMove.x < 0)
@@ -291,7 +290,7 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
         }
 
         _prevDirection = _direction;
-        _rotation = rotaion;
+        //_rotation = rotaion;
     }
 
     private void UpdateDetector()
