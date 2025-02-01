@@ -58,6 +58,10 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
     [SerializeField] protected Animator _animator;
     [SerializeField] protected Transform _cameraTarget;
 
+    //!! Camera
+    [Header("Camera")]
+    [SerializeField] private float _fallSpeedYDampingChangeThreshold;
+
     //Getter or Setter
     #region ICharacter
 
@@ -192,6 +196,9 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
         _currentData = new DetectorData();
         _prevData = new DetectorData();
         _staticData.Bounds = _initBound;
+
+        //!!Camera
+        _fallSpeedYDampingChangeThreshold = CameraManager.instance._fallSpeedYDampingChangeThreshold;
     }
 
     protected virtual void OnEnable()
@@ -237,6 +244,21 @@ public abstract class PlayerCharacterBase : MonoBehaviour, ICharacter, IHealth, 
                 _dashCount++;
                 _dashCooldownRemain = _dashCooldown;
             }
+        }
+
+        //!! Camera
+        //如果角色下落速度超越了阈值
+        if(_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping 
+            && !CameraManager.instance.LerpedFromPlayerFalling)
+        {
+            CameraManager.instance.LerpYDamping(true);
+        }
+        //如果处于静止状态或者在向上运动
+        if(_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling)
+        {
+            //reset,can be called again
+            CameraManager.instance.LerpedFromPlayerFalling = false;
+            CameraManager.instance.LerpYDamping(false);
         }
     }
     #endregion
