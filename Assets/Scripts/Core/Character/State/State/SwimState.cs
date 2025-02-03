@@ -89,10 +89,10 @@ public class SwimState : StateBase
 
         //Debug.Log(angle);
 
-        if(angle > 80f) PlayAnimation(_animationHash_SwimUp);
-        else if(angle > 10f) PlayAnimation(_animationHash_SwimUpSide);
-        else if(angle > -10f) PlayAnimation(_animationHash_SwimSide);
-        else if(angle > -80f) PlayAnimation(_animationHash_SwimDownSide);
+        if(angle > 75f) PlayAnimation(_animationHash_SwimUp);
+        else if(angle > 15f) PlayAnimation(_animationHash_SwimUpSide);
+        else if(angle > -15f) PlayAnimation(_animationHash_SwimSide);
+        else if(angle > -75f) PlayAnimation(_animationHash_SwimDownSide);
         else PlayAnimation(_animationHash_SwimDown);
     }
 
@@ -118,15 +118,15 @@ public class SwimState : StateBase
 
         if (_ownerCharacter.PrevDirection != _ownerCharacter.Direction)
         {
-            _ownerCharacter.transform.rotation = targetRotation;
+            _ownerCharacter.transform.localRotation = targetRotation;
         }
         else if (Mathf.Abs(_ownerCharacter.transform.rotation.y - angle) < 30f)
         {
-            _ownerCharacter.transform.rotation = Quaternion.Slerp(_ownerCharacter.transform.rotation, targetRotation, 5 * Time.deltaTime);
+            _ownerCharacter.transform.localRotation = Quaternion.Slerp(_ownerCharacter.transform.localRotation, targetRotation, 5 * Time.deltaTime);
         }
         else
         {
-            _ownerCharacter.transform.rotation = targetRotation;
+            _ownerCharacter.transform.localRotation = targetRotation;
         }
 
         _ownerCharacter.PrevDirection = _ownerCharacter.Direction;
