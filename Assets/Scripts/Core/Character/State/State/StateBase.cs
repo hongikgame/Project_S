@@ -14,7 +14,7 @@ public abstract class StateBase
 
     public virtual void Start()
     {
-        SetAnimation(true);
+        
     }
 
     public virtual void FixedUpdate()
@@ -29,11 +29,20 @@ public abstract class StateBase
 
     public virtual void Finish()
     {
-        SetAnimation(false);
+        
     }
 
-    private void SetAnimation(bool active)
+    public virtual void UpdateAnimation()
     {
-        _ownerCharacter.Animator.SetBool(_animationHash, active);
+        
+    }
+
+    public virtual void UpdateRotation()
+    {
+    }
+
+    protected void PlayAnimation(int hash)
+    {
+        _ownerCharacter.Animator.Play(hash);
     }
 }

@@ -1,8 +1,5 @@
 using Cinemachine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +7,8 @@ public static class StageManager
 {
     private static List<Stage> _stageList = new List<Stage>();
     private static int _nextStageIndex = 0;
+
+    public static int StageIndex { get => _nextStageIndex; }
 
     static StageManager()
     {
@@ -33,6 +32,8 @@ public static class StageManager
         InputManager.SetPlayerInputActivate(false);
         _nextStageIndex = index;
         UI_HUD.Instance.FadeOutAndIn(TransitionType.Stage, 0.75f, OnFadeOutFinish, OnFadeInFinish);
+
+        SaveLoadManager.Save();
     }
 
     private static void SetCameraConfiner(int index)
@@ -61,4 +62,6 @@ public static class StageManager
     {
         InputManager.SetPlayerInputActivate(true);
     }
+
+
 }
