@@ -17,6 +17,8 @@ public class UI_HUD : SingletonMonobehavior<UI_HUD>
     {
         EventHandler.PlayerGetDamage -= SyncPlayerHealth;
         EventHandler.PlayerGetDamage += SyncPlayerHealth;
+
+        _transitionAnimation.Reset();
     }
 
     private void OnDisable()

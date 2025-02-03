@@ -62,7 +62,7 @@ public class SwimState : StateBase
 
     public override void UpdateAnimation()
     {
-        if(_ownerCharacter.Input.y > 0)
+        /*if(_ownerCharacter.Input.y > 0)
         {
             if(_ownerCharacter.Input.x == 0) PlayAnimation(_animationHash_SwimUp);
             else PlayAnimation(_animationHash_SwimUpSide);
@@ -75,7 +75,25 @@ public class SwimState : StateBase
         {
             if (_ownerCharacter.Input.x == 0) PlayAnimation(_animationHash_SwimDown);
             else PlayAnimation(_animationHash_SwimDownSide);
+        }*/
+
+        float angle = Utils.GetAngle(_ownerCharacter.Input);
+        if (angle > 90f)
+        {
+            angle = -(angle - 180);
         }
+        else if (angle < -90f)
+        {
+            angle = -(angle + 180);
+        }
+
+        //Debug.Log(angle);
+
+        if(angle > 80f) PlayAnimation(_animationHash_SwimUp);
+        else if(angle > 10f) PlayAnimation(_animationHash_SwimUpSide);
+        else if(angle > -10f) PlayAnimation(_animationHash_SwimSide);
+        else if(angle > -80f) PlayAnimation(_animationHash_SwimDownSide);
+        else PlayAnimation(_animationHash_SwimDown);
     }
 
     public override void UpdateRotation()
@@ -113,6 +131,7 @@ public class SwimState : StateBase
 
         _ownerCharacter.PrevDirection = _ownerCharacter.Direction;
 
-        if (angle == 90 || angle == -90) _ownerCharacter.Direction = CharacterDirection.Right;
+        Debug.Log(angle);
+        //if (angle > 80f || angle < -80f) _ownerCharacter.Direction = CharacterDirection.Right;
     }
 }

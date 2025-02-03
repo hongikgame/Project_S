@@ -91,8 +91,8 @@ public abstract class PlayerCharacterBase : CharacterBase, IBreath
         {
             _velocity = value;
             //if (Mathf.Approximately(value.x, 0)) return;
-            if (_velocity.x > 0.1) Direction = CharacterDirection.Right;
-            else if (_velocity.x < -0.1) Direction = CharacterDirection.Left;
+            if (_velocity.x >= 0) Direction = CharacterDirection.Right;
+            else if (_velocity.x < 0) Direction = CharacterDirection.Left;
         }
     }
     public Vector2 Input { get => _inputMove; set => _inputMove = value; }

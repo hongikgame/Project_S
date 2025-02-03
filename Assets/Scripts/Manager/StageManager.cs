@@ -25,12 +25,16 @@ public static class StageManager
     {
         _stageList.Add(stage);
         _stageList.Sort((s1, s2) =>  s1.Index.CompareTo(s2.Index));
+        stage.gameObject.SetActive(false);
     }
 
     public static void SetStage(int index)
     {
-        InputManager.SetPlayerInputActivate(false);
         _nextStageIndex = index;
+
+        
+
+        InputManager.SetPlayerInputActivate(false);
         UI_HUD.Instance.FadeOutAndIn(TransitionType.Stage, 0.75f, OnFadeOutFinish, OnFadeInFinish);
 
         SaveLoadManager.Save();
@@ -54,7 +58,15 @@ public static class StageManager
 
     public static void OnFadeOutFinish()
     {
-        SetCameraConfiner(_nextStageIndex);
+        //SetCameraConfiner(_nextStageIndex);
+
+        if (_nextStageIndex - 1 >= 0)
+        {
+            _stageList[_nextStageIndex - 1].gameObject.SetActive(false);
+        }
+
+        _stageList[_nextStageIndex].gameObject.SetActive(true);
+        CameraManager.Instance.RegisterVirtualCameras(_stageList[_nextStageIndex].VirtualCameraList);
         CharacterManager.MoveCharacterTo("Player", _stageList[_nextStageIndex].GetSpawnPoint());
     }
 

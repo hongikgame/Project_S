@@ -18,20 +18,36 @@ public class TransitionAnimation : MonoBehaviour
 
     private void Awake()
     {
-        Reset();
+        SetDeactive();
+    }
+
+    public void Reset()
+    {
+        SetDeactive();
+
+        _stageTransitionArray[0].gameObject.SetActive(true);
+        _stageTransitionArray[1].gameObject.SetActive(true);
+
+        _stageTransitionArray[0].anchoredPosition = new Vector2(0, _limiter);
+        _stageTransitionArray[1].anchoredPosition = new Vector2(0, -_limiter);
     }
 
     public void DoFadeOut(TransitionType type, Action func = null)
     {
-        Reset();
+        SetDeactive();
 
         if (type == TransitionType.Stage)
         {
             _stageTransitionArray[0].gameObject.SetActive(true);
             _stageTransitionArray[1].gameObject.SetActive(true);
 
-            _stageTransitionArray[0].anchoredPosition = new Vector2(0, _init);
-            _stageTransitionArray[1].anchoredPosition = new Vector2(0, -_init);
+            if (!(_stageTransitionArray[0].anchoredPosition.y == _limiter))
+            {
+
+
+                _stageTransitionArray[0].anchoredPosition = new Vector2(0, _init);
+                _stageTransitionArray[1].anchoredPosition = new Vector2(0, -_init);
+            }
 
             _stageTransitionArray[0].DOAnchorPosY(_limiter, _trainsitionTimer).SetEase(Ease.InOutSine);
             _stageTransitionArray[1].DOAnchorPosY(-_limiter, _trainsitionTimer).SetEase(Ease.InOutSine).OnComplete(() => func?.Invoke());
@@ -51,7 +67,7 @@ public class TransitionAnimation : MonoBehaviour
 
     public void DoFadeIn(TransitionType type, Action func = null)
     {
-        Reset();
+        SetDeactive();
 
         if (type == TransitionType.Stage)
         {
@@ -83,7 +99,7 @@ public class TransitionAnimation : MonoBehaviour
         StartCoroutine(FadeOutAndInCoroutine(type, wait, outFunc, inFunc));
     }
 
-    private void Reset()
+    private void SetDeactive()
     {
         _stageTransitionArray[0].gameObject.SetActive(false);
         _stageTransitionArray[1].gameObject.SetActive(false);

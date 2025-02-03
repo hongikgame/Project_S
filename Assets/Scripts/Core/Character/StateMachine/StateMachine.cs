@@ -40,13 +40,13 @@ public class StateMachine
         }
 
         _currentState.FixedUpdate();
+        _currentState?.UpdateAnimation();
+        _currentState?.UpdateRotation();
     }
 
     public void Update(PlayerCharacterBase character)
     {
         _currentState?.Update();
-        _currentState?.UpdateAnimation();
-        _currentState?.UpdateRotation();
     }
 
     public string GetCurrentStateName()
